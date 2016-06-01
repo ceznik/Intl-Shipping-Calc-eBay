@@ -1,0 +1,17 @@
+{
+  "name": "fedex-rates",
+  "version": "1.0.0",
+  "description": "calculates global fedex shipping reates\u001b[D\u001b[D\u001b[D\u001b[\u001b[F\u001b[B",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "shipping-fedex": "^0.1.4",
+    "usps-webtools": "0.0.11"
+  }
+}

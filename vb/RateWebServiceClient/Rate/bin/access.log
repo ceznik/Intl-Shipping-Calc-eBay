@@ -1,0 +1,222 @@
+5/5/2016 2:14:33 PM - Request:
+<?xml version="1.0" encoding="utf-8"?>
+<RateRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <WebAuthenticationDetail xmlns="http://fedex.com/ws/rate/v18">
+    <ParentCredential>
+      <Key>XXX</Key>
+      <Password>XXX</Password>
+    </ParentCredential>
+    <UserCredential>
+      <Key>XXX</Key>
+      <Password>XXX</Password>
+    </UserCredential>
+  </WebAuthenticationDetail>
+  <ClientDetail xmlns="http://fedex.com/ws/rate/v18">
+    <AccountNumber>XXX</AccountNumber>
+    <MeterNumber>XXX</MeterNumber>
+  </ClientDetail>
+  <TransactionDetail xmlns="http://fedex.com/ws/rate/v18">
+    <CustomerTransactionId>*** Rate Request using VB.NET ***</CustomerTransactionId>
+  </TransactionDetail>
+  <Version xmlns="http://fedex.com/ws/rate/v18">
+    <ServiceId>crs</ServiceId>
+    <Major>18</Major>
+    <Intermediate>0</Intermediate>
+    <Minor>0</Minor>
+  </Version>
+  <ReturnTransitAndCommit xmlns="http://fedex.com/ws/rate/v18">true</ReturnTransitAndCommit>
+  <RequestedShipment xmlns="http://fedex.com/ws/rate/v18">
+    <ShipTimestamp>2016-05-05T14:14:28.5761528-04:00</ShipTimestamp>
+    <ServiceType>INTERNATIONAL_PRIORITY</ServiceType>
+    <PackagingType>YOUR_PACKAGING</PackagingType>
+    <TotalInsuredValue>
+      <Currency>USD</Currency>
+    </TotalInsuredValue>
+    <Shipper>
+      <Address>
+        <StreetLines>SHIPPER ADDRESS LINE 1</StreetLines>
+        <City>COLLIERVILLE</City>
+        <StateOrProvinceCode>TN</StateOrProvinceCode>
+        <PostalCode>38017</PostalCode>
+        <CountryCode>US</CountryCode>
+      </Address>
+    </Shipper>
+    <Recipient>
+      <Address>
+        <StreetLines>RECIPIENT ADDRESS LINE 1</StreetLines>
+        <City>Montreal</City>
+        <StateOrProvinceCode>PQ</StateOrProvinceCode>
+        <PostalCode>H1E1A1</PostalCode>
+        <CountryCode>CA</CountryCode>
+      </Address>
+    </Recipient>
+    <PackageCount>2</PackageCount>
+    <RequestedPackageLineItems>
+      <SequenceNumber>1</SequenceNumber>
+      <GroupPackageCount>1</GroupPackageCount>
+      <InsuredValue>
+        <Currency>USD</Currency>
+      </InsuredValue>
+      <Weight>
+        <Units>LB</Units>
+        <Value>15</Value>
+      </Weight>
+      <Dimensions>
+        <Length>10</Length>
+        <Width>13</Width>
+        <Height>4</Height>
+        <Units>IN</Units>
+      </Dimensions>
+    </RequestedPackageLineItems>
+    <RequestedPackageLineItems>
+      <SequenceNumber>2</SequenceNumber>
+      <GroupPackageCount>1</GroupPackageCount>
+      <InsuredValue>
+        <Currency>USD</Currency>
+        <Amount>500</Amount>
+      </InsuredValue>
+      <Weight>
+        <Units>LB</Units>
+        <Value>25</Value>
+      </Weight>
+      <Dimensions>
+        <Length>20</Length>
+        <Width>13</Width>
+        <Height>4</Height>
+        <Units>IN</Units>
+      </Dimensions>
+    </RequestedPackageLineItems>
+  </RequestedShipment>
+</RateRequest>
+
+5/5/2016 2:14:40 PM Reply:
+<?xml version="1.0" encoding="utf-8"?>
+<RateReply xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HighestSeverity xmlns="http://fedex.com/ws/rate/v18">ERROR</HighestSeverity>
+  <Notifications xmlns="http://fedex.com/ws/rate/v18">
+    <Severity>ERROR</Severity>
+    <Source>prof</Source>
+    <Code>1000</Code>
+    <Message>Authentication Failed</Message>
+  </Notifications>
+  <TransactionDetail xmlns="http://fedex.com/ws/rate/v18">
+    <CustomerTransactionId>*** Rate Request using VB.NET ***</CustomerTransactionId>
+  </TransactionDetail>
+  <Version xmlns="http://fedex.com/ws/rate/v18">
+    <ServiceId>crs</ServiceId>
+    <Major>18</Major>
+    <Intermediate>0</Intermediate>
+    <Minor>0</Minor>
+  </Version>
+</RateReply>
+5/5/2016 2:43:05 PM - Request:
+<?xml version="1.0" encoding="utf-8"?>
+<RateRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <WebAuthenticationDetail xmlns="http://fedex.com/ws/rate/v18">
+    <ParentCredential>
+      <Key>XXX</Key>
+      <Password>XXX</Password>
+    </ParentCredential>
+    <UserCredential>
+      <Key>XXX</Key>
+      <Password>XXX</Password>
+    </UserCredential>
+  </WebAuthenticationDetail>
+  <ClientDetail xmlns="http://fedex.com/ws/rate/v18">
+    <AccountNumber>510087100</AccountNumber>
+    <MeterNumber>118724066</MeterNumber>
+  </ClientDetail>
+  <TransactionDetail xmlns="http://fedex.com/ws/rate/v18">
+    <CustomerTransactionId>*** Rate Request using VB.NET ***</CustomerTransactionId>
+  </TransactionDetail>
+  <Version xmlns="http://fedex.com/ws/rate/v18">
+    <ServiceId>crs</ServiceId>
+    <Major>18</Major>
+    <Intermediate>0</Intermediate>
+    <Minor>0</Minor>
+  </Version>
+  <ReturnTransitAndCommit xmlns="http://fedex.com/ws/rate/v18">true</ReturnTransitAndCommit>
+  <RequestedShipment xmlns="http://fedex.com/ws/rate/v18">
+    <ShipTimestamp>2016-05-05T14:43:04.4892448-04:00</ShipTimestamp>
+    <ServiceType>INTERNATIONAL_PRIORITY</ServiceType>
+    <PackagingType>YOUR_PACKAGING</PackagingType>
+    <TotalInsuredValue>
+      <Currency>USD</Currency>
+    </TotalInsuredValue>
+    <Shipper>
+      <Address>
+        <StreetLines>SHIPPER ADDRESS LINE 1</StreetLines>
+        <City>COLLIERVILLE</City>
+        <StateOrProvinceCode>TN</StateOrProvinceCode>
+        <PostalCode>38017</PostalCode>
+        <CountryCode>US</CountryCode>
+      </Address>
+    </Shipper>
+    <Recipient>
+      <Address>
+        <StreetLines>RECIPIENT ADDRESS LINE 1</StreetLines>
+        <City>Montreal</City>
+        <StateOrProvinceCode>PQ</StateOrProvinceCode>
+        <PostalCode>H1E1A1</PostalCode>
+        <CountryCode>CA</CountryCode>
+      </Address>
+    </Recipient>
+    <PackageCount>2</PackageCount>
+    <RequestedPackageLineItems>
+      <SequenceNumber>1</SequenceNumber>
+      <GroupPackageCount>1</GroupPackageCount>
+      <InsuredValue>
+        <Currency>USD</Currency>
+      </InsuredValue>
+      <Weight>
+        <Units>LB</Units>
+        <Value>15</Value>
+      </Weight>
+      <Dimensions>
+        <Length>10</Length>
+        <Width>13</Width>
+        <Height>4</Height>
+        <Units>IN</Units>
+      </Dimensions>
+    </RequestedPackageLineItems>
+    <RequestedPackageLineItems>
+      <SequenceNumber>2</SequenceNumber>
+      <GroupPackageCount>1</GroupPackageCount>
+      <InsuredValue>
+        <Currency>USD</Currency>
+        <Amount>500</Amount>
+      </InsuredValue>
+      <Weight>
+        <Units>LB</Units>
+        <Value>25</Value>
+      </Weight>
+      <Dimensions>
+        <Length>20</Length>
+        <Width>13</Width>
+        <Height>4</Height>
+        <Units>IN</Units>
+      </Dimensions>
+    </RequestedPackageLineItems>
+  </RequestedShipment>
+</RateRequest>
+
+5/5/2016 2:43:06 PM Reply:
+<?xml version="1.0" encoding="utf-8"?>
+<RateReply xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HighestSeverity xmlns="http://fedex.com/ws/rate/v18">ERROR</HighestSeverity>
+  <Notifications xmlns="http://fedex.com/ws/rate/v18">
+    <Severity>ERROR</Severity>
+    <Source>prof</Source>
+    <Code>1000</Code>
+    <Message>Authentication Failed</Message>
+  </Notifications>
+  <TransactionDetail xmlns="http://fedex.com/ws/rate/v18">
+    <CustomerTransactionId>*** Rate Request using VB.NET ***</CustomerTransactionId>
+  </TransactionDetail>
+  <Version xmlns="http://fedex.com/ws/rate/v18">
+    <ServiceId>crs</ServiceId>
+    <Major>18</Major>
+    <Intermediate>0</Intermediate>
+    <Minor>0</Minor>
+  </Version>
+</RateReply>
