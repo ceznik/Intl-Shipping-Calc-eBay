@@ -1,0 +1,10 @@
+.form-control{
+	width:30%;
+	font-weight: 25px;
+}
+.form-group{
+	padding-left: 15px;
+}
+.btn-info{
+	margin: 15px;
+}

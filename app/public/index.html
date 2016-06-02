@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FedEx International Shipping Calculator</title>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	<!-- DataTable -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
+
+	<!-- Custom CSS -->
+	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+</head>
+<body>
+	<div class="jumbotron">
+	  <h1>FedEx Global Shipping Calculator</h1>
+	  <p>Welcome to the Ultrarev Global Shipping Calculator. Made specifically for eBay, this calculator generates the international shipping rate table as used to calculate global shipping costs. Rates are displayed as Base Cost + $USD / LB. </p>
+	  <p><a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">Calculate Shipping!</a></p>
+	</div>
+	<!-- Large modal -->
+
+	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	      <h3>Enter shipping details</h3><br>
+	      <div class="form-group">
+	      	<label for="inputWeight">Weight</label>
+	      	<input type="number" class="form-control" id="inputWeight" placeholder="weight">
+	      </div>
+	      <div class="form-group">
+	      	<label for="inputLength">Length</label>
+	      	<input type="number" class="form-control" id="inputLength" placeholder="length">
+	      </div>
+	      <div class="form-group">
+	      	<label for="inputHeight">Height</label>
+	      	<input type="number" class="form-control" id="inputHeight" placeholder="height">
+	      </div>
+	      <div class="form-group">
+	      	<label for="inputWidth">Width</label>
+	      	<input type="number" class="form-control" id="inputWidth" placeholder="width">
+	      </div>
+	      <div class="form-group">
+	      	<label for="inputCountry">CountryCode</label>
+	      	<input type="text" class="form-control" id="inputCountry" placeholder="AA">
+	      </div>
+	      <button type="button" class="btn btn-info">Calculate</button>      
+	    </div>
+	  </div>
+	</div>
+    <table id="compTable" class="display" cellspacing="0" width="80%">
+	<thead>
+		<tr>
+			<th>Region</th>
+			<th>Country</th>
+			<th>Base Price</th>
+			<th>Price per Pound</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
+</body>
+</html>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#compTable').DataTable({
+			data:[['North America','Mexico','34.00','4.53']]
+		});
+	});
+
+</script>

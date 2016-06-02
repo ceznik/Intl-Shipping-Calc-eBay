@@ -6,7 +6,6 @@ Andorra,AD
 Angola,AO
 Anguilla,AI
 Antigua and Barbuda,AG
-APO/FPO,US
 Argentina,AR
 Armenia,AM
 Aruba,AW
@@ -31,7 +30,7 @@ British Virgin Islands,VG
 Brunei Darussalam,BN
 Bulgaria,BG
 Burkina Faso,BF
-Burma,AF
+Burma,MM
 Burundi,BI
 Cambodia,KH
 Cameroon,CM
@@ -44,12 +43,12 @@ Chile,CL
 China,CN
 Colombia,CO
 Comoros,KM
-"Congo, Democratic Republic of the",ZR
-"Congo, Republic of the",CG
+Democratic Republic of the Congo,ZR
+Republic of the Congo,CG
 Cook Islands,CK
 Costa Rica,CR
 Cote d Ivoire (Ivory Coast),CI
-"Croatia, Democratic Republic of the",HR
+Democratic Republic of the Croatia,HR
 Cuba,CU
 Cyprus,CY
 Czech Republic,CZ
@@ -61,7 +60,7 @@ Ecuador,EC
 Egypt,EG
 El Salvador,SV
 Equatorial Guinea,GQ
-Eritrea,QQ
+Eritrea,ER
 Estonia,EE
 Ethiopia,ET
 Falkland Islands (Islas Makvinas),FK
@@ -103,18 +102,18 @@ Italy,IT
 Jamaica,JM
 Jan Mayen,SJ
 Japan,JP
-Jersey,UK
+Jersey,GB
 Jordan,JO
 Kazakhstan,KZ
 Kenya,KE
 Kiribati,KI
-"Korea, North",KP
-"Korea, South",KR
+North Korea,KP
+South Korea,KR
 Kuwait,KW
 Kyrgyzstan,KG
 Laos,LA
 Latvia,LV
-"Lebanon, South",LB
+South Lebanon,LB
 Lesotho,LS
 Liberia,LR
 Libya,LY
@@ -136,7 +135,7 @@ Mauritius,MU
 Mayotte,YT
 Mexico,MX
 Micronesia,MI
-Moldova,QQ
+Moldova,MD
 Monaco,MC
 Mongolia,MN
 Montenegro,ME
@@ -165,14 +164,13 @@ Peru,PE
 Philippines,PH
 Poland,PL
 Portugal,PT
-Puerto Rico,PR
 Qatar,QA
 R ion,RE
 Romania,RO
 Russian Federation,RU
 Rwanda,RW
 Saint Helena,SH
-Saint Kitts-Nevis,QQ
+Saint Kitts-Nevis,KN
 Saint Lucia,LC
 Saint Pierre and Miquelon,PM
 San Marino,SM
@@ -210,9 +208,8 @@ Turkmenistan,TM
 Turks and Caicos Islands,TC
 Uganda,UG
 Ukraine,UA
-United Arab Emirates,AF
+United Arab Emirates,AE
 United Kingdom,UK
-United States,US
 Uruguay,UY
 Uzbekistan,UZ
 Vanuatu,VU
