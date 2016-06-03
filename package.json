@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cli-table": "^0.3.1",
+    "firebase": "^3.0.3",
     "shipping-fedex": "^0.1.4",
     "usps-webtools": "0.0.11"
   }

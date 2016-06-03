@@ -8,3 +8,9 @@
 .btn-info{
 	margin: 15px;
 }
+.btn-primary{
+	margin: 15px;
+}
+.jumbotron > h1, p{
+	margin: 15px;
+}
