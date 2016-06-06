@@ -1,6 +1,5 @@
 var fedexAPI = require('shipping-fedex');
 var Table = require('cli-table');
-var firebase = require('firebase');
 var fs = require('fs');
 var CountryCodes = [];
 fs.readFile('./sample_data/CountryCodeList.csv', 'utf8', function(err, data){
@@ -17,28 +16,20 @@ var table = new Table({
     colWidths: [15, 15, 30, 20]
 });
 
-//Firebase declaration for storing International Shipping Rates//
-var config = {
-apiKey: "AIzaSyB1uQZA1m7__Sf34v6YnWrwPOCpe4n7PT8",
-authDomain: "intl-shipping-ebay.firebaseapp.com",
-databaseURL: "https://intl-shipping-ebay.firebaseio.com",
-storageBucket: "",
-};
-var app = firebase.initializeApp(config);
 
 var fedex = new fedexAPI({
-	environment: 'sandbox', // or live 
+	environment: 'sandbox', // or live or sandbox
     debug: false,
     key: 'kW1xOjPyNZVDYxRf',
     password: 'YNwXWDnDZ5XlwTStCCNyU8LOc',
-    account_number: '510087100',
+    account_number: '510087100', //510087100
     meter_number: '118724066',
     imperial: true // set to false for metric 
 });
 
-var weights = 2; 	//[1, 2, 4, 8, 16, 32, 64, 128];
-var lwh = 5; 		//[1, 2, 4, 8, 16, 30, 32];
-
+var wt = [1, 2, 4, 8, 16, 32, 64, 128]; //weight array
+var lwh = [1, 2, 4, 8, 16, 32]; //dimension array
+var cc = 'AL';
 
 var getRates = function(cc, wt, lwh){
 
@@ -77,7 +68,7 @@ var getRates = function(cc, wt, lwh){
 		      ],
 		      City: '',
 		      StateOrProvinceCode: '',
-		      PostalCode: '',
+		      PostalCode: '1005',
 		      CountryCode: cc,
 		      Residential: true
 		    }
@@ -112,10 +103,10 @@ var getRates = function(cc, wt, lwh){
 	  var resultArray = [];
 	  var results = res.RateReplyDetails
 	  if(err) throw err;
-	  //console.log(results[1].RatedShipmentDetails);
-	if (results.length !== 0 && results.length !== null){
+	  //console.log(res);
+	if (results.length !== 0 || results.length !== null){
 	  table.push([wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount]);
-	  fs.appendFile('intlRates.txt',['\n'+ wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount]+'\n','utf8',function(error){
+	  fs.appendFile('intlRates.txt',[cc, wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount] + '\r\n','utf8',function(error){
 	    if(error) throw error;
 		});
 	} 
@@ -129,6 +120,4 @@ var getRates = function(cc, wt, lwh){
 	});
 }
 
-
-
-
+module.exports = getRates;
