@@ -14,3 +14,7 @@
 .jumbotron > h1, p{
 	margin: 15px;
 }
+.modal-content {
+	padding-left: 15px;
+	width: 50%;
+}
