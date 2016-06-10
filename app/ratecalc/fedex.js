@@ -30,7 +30,7 @@ var fedex = new fedexAPI({
 });
 
 
-var getRatesAndOptions = function(cc, zip, wt, l, w, h){
+
 
 	fedex.rates({
 		ReturnTransitAndCommit: true,
@@ -99,13 +99,13 @@ var getRatesAndOptions = function(cc, zip, wt, l, w, h){
 		}
 	},
 	function (err, res) {
-	  var resultArray = [['Weight', 'G+L', 'Delivery Option', 'Cost']];
+	  var resultArray = [];
 	  var results = res.RateReplyDetails
 	  if(err) throw err;
 	  //console.log(res);
 	if (results.length !== 0 || results.length !== null){
 		for(var i = 0; i < results.length; i++){
-			resultArray.push([wt, 2*(w+h)+l, results[i].ServiceType, '$' + results[i].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
+			resultArray.push([wt, 2*(parseInt(w)+parseInt(h))+parseInt(l), results[i].ServiceType, '$' + results[i].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
 		}
 	  //table.push([wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount]);
 	 //  fs.appendFile('intlRates.txt',[cc, wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount] + '\r\n','utf8',function(error){
@@ -115,11 +115,11 @@ var getRatesAndOptions = function(cc, zip, wt, l, w, h){
 	else {
 	  console.log("No results to display"); 
 	}
+	//return(resultArray);
 	console.log(resultArray);
 	  //console.log(results[1].ServiceType);
 	  //console.log(results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount);
 
 	});
-}
-module.exports = getRatesAndOptions;
+//module.exports = getRatesAndOptions;
 //console.log(cc.length);
