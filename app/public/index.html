@@ -19,6 +19,9 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
 
+	<!-- Firebase -->
+  	<script src="https://www.gstatic.com/firebasejs/3.0.2/firebase.js"></script>
+
 
 </head>
 <body>
@@ -53,6 +56,19 @@
 					<tbody></tbody>
 				</table>
 			</span>
+			<span id="shipRateContainer">
+				<table id="shippingRates">
+					<thead>
+						<tr>
+							<th>Weight</th>
+							<th>Dimensions</th>
+							<th>Cost</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</span>
+
 	      <div class="form-group">
 	      	<label for="inputWeight">Weight (lbs)</label>
 	      	<input type="number" class="form-control" id="inputWeight" placeholder="weight">
@@ -324,19 +340,62 @@
 </html>
 <script type="text/javascript">
 	$(document).ready(function(){
+		var currentURL	= window.location.origin;
 		$('#compTable').DataTable({
-			data:[['North America','Canada','37.00','1.50'],['Europe', 'France','85.00', '6.00'],['Europe','Russian Federation','45.00','5.00'],['Oceania','Australia','125.00','8.50'],['Europe','Albania','97.00','54.00']]
-		// });
-		// for (var weight = 1; weight < 151; weight++){
-		// 	for(var lwh = 1;lwh < 26; lwh++){
-		// 		console.log()
-		// 	}
-		// }
+			data:[['North America','Canada','37.00','1.50'],['Europe', 'France','85.00', '6.00'],['Europe','Russian Federation','45.00','5.00'],['Oceania','Australia','125.00','8.50'],['Europe','Albania','97.00','54.00']],
+			"searching":false,
+			"info":false,
+			"paging":false
 		});
 
 
 		$('#calcShippingRates').on('click', function(){
-			alert('calculating rates for this country');
+			var dims = [1, 2, 4, 8, 16, 32];
+			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+			var rateArray = [];
+			$('#shipTable').hide();
+
+			for(var i = 0; i < dims.length; i++){
+				for(var j = 0; j < weights.length; j++){
+					CalcRate(weights[j], dims[i]);
+				}
+			}
+
+
+			function CalcRate(weight, dim){
+				var shippingQuery = {
+				weight: weight,
+				length: dim,
+				height: dim,
+				width: dim,
+				zip: $('#inputZip').val().trim(),
+				country: $('#inputCountry').val().trim()
+				};				
+				var shippingWeight;
+				if((Math.pow(dim,3)>=5184) && (Math.pow(dim,3)/139 > weight)){
+					console.log("Division flow");
+					shippingWeight = (Math.pow(dim,3)/139).toFixed(1);
+				}
+				else{
+					console.log("Weight Flow");
+					shippingWeight = weight.toFixed(1);
+				}
+				$.post(currentURL + "/rates", shippingQuery,
+					function(data){
+						rateArray.push([shippingWeight, dim, data]);
+					}).then(function(){
+							$('#shippingRates').DataTable({
+								data: rateArray,
+								"searching":false,
+								"paging":true,
+								"info":false,
+								"ordering":true,
+								"destroy":true,
+								"dom":'<"toolbar">frtip'
+							});
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>');
+					});
+			}
 
 		});	
 
@@ -349,7 +408,7 @@
 				zip: $('#inputZip').val().trim(),
 				country: $('#inputCountry').val().trim()
 			};
-			var currentURL	= window.location.origin;
+			$('#shippingRates').hide();
 			$.post(currentURL + "/ship", shippingQuery,
 				function(data){
 					$('#shipTable').DataTable({
@@ -365,7 +424,7 @@
 	});
 </script>
 <style type="text/css">
-	.form-control{
+.form-control{
 	width:30%;
 	font-weight: 25px;
 }
@@ -385,7 +444,7 @@
 	padding-left: 15px;
 	width: 100%;
 }
-#shipTableContainer {
+#shipTableContainer, #shipRateContainer {
 	float: right;
 	position: relative;
 }
