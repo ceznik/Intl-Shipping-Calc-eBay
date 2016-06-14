@@ -341,6 +341,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		var currentURL	= window.location.origin;
+
 		$('#compTable').DataTable({
 			data:[['North America','Canada','37.00','1.50'],['Europe', 'France','85.00', '6.00'],['Europe','Russian Federation','45.00','5.00'],['Oceania','Australia','125.00','8.50'],['Europe','Albania','97.00','54.00']],
 			"searching":false,
@@ -348,18 +349,30 @@
 			"paging":false
 		});
 
-
 		$('#calcShippingRates').on('click', function(){
 			var dims = [1, 2, 4, 8, 16, 32];
 			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
 			var rateArray = [];
-			$('#shipTable').hide();
+			var calcRate = [];
+			var x_avg;
+			var $_avg;
 
+
+			$('#shipTable').hide(); // hide the shipping options table on the opening modal page.
+
+
+			//get shipping quotes for each weight and dimension combination
 			for(var i = 0; i < dims.length; i++){
+				var x_sum;
 				for(var j = 0; j < weights.length; j++){
 					CalcRate(weights[j], dims[i]);
+					x_sum += weights[i];
+					console.log("RATE ARRAY===");
+ 					console.log(rateArray);
 				}
 			}
+
+
 
 
 			function CalcRate(weight, dim){
@@ -372,7 +385,7 @@
 				country: $('#inputCountry').val().trim()
 				};				
 				var shippingWeight;
-				if((Math.pow(dim,3)>=5184) && (Math.pow(dim,3)/139 > weight)){
+				if((Math.pow(dim,3) >= 5184) && (Math.pow(dim,3) / 139 > weight)){
 					console.log("Division flow");
 					shippingWeight = (Math.pow(dim,3)/139).toFixed(1);
 				}
@@ -396,8 +409,7 @@
 							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>');
 					});
 			}
-
-		});	
+		});
 
 		$('#getShippingOptions').on('click', function(){
 			var shippingQuery = {
