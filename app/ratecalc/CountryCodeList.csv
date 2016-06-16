@@ -1,226 +1,226 @@
-Afghanistan,AF,<option value='AF'>Afghanistan</option>
-Albania,AL,<option value='AL'>Albania</option>
-Algeria,DZ,<option value='DZ'>Algeria</option>
-American Samoa,AS,<option value='AS'>American Samoa</option>
-Andorra,AD,<option value='AD'>Andorra</option>
-Angola,AO,<option value='AO'>Angola</option>
-Anguilla,AI,<option value='AI'>Anguilla</option>
-Antigua and Barbuda,AG,<option value='AG'>Antigua and Barbuda</option>
-Argentina,AR,<option value='AR'>Argentina</option>
-Armenia,AM,<option value='AM'>Armenia</option>
-Aruba,AW,<option value='AW'>Aruba</option>
-Australia,AU,<option value='AU'>Australia</option>
-Austria,AT,<option value='AT'>Austria</option>
-Azerbaijan Republic,AZ,<option value='AZ'>Azerbaijan Republic</option>
-Bahamas,BS,<option value='BS'>Bahamas</option>
-Bahrain,BH,<option value='BH'>Bahrain</option>
-Bangladesh,BD,<option value='BD'>Bangladesh</option>
-Barbados,BB,<option value='BB'>Barbados</option>
-Belarus,BY,<option value='BY'>Belarus</option>
-Belgium,BE,<option value='BE'>Belgium</option>
-Belize,BZ,<option value='BZ'>Belize</option>
-Benin,BJ,<option value='BJ'>Benin</option>
-Bermuda,BM,<option value='BM'>Bermuda</option>
-Bhutan,BT,<option value='BT'>Bhutan</option>
-Bolivia,BO,<option value='BO'>Bolivia</option>
-Bosnia and Herzegovina,BA,<option value='BA'>Bosnia and Herzegovina</option>
-Botswana,BW,<option value='BW'>Botswana</option>
-Brazil,BR,<option value='BR'>Brazil</option>
-British Virgin Islands,VG,<option value='VG'>British Virgin Islands</option>
-Brunei Darussalam,BN,<option value='BN'>Brunei Darussalam</option>
-Bulgaria,BG,<option value='BG'>Bulgaria</option>
-Burkina Faso,BF,<option value='BF'>Burkina Faso</option>
-Burma,MM,<option value='MM'>Burma</option>
-Burundi,BI,<option value='BI'>Burundi</option>
-Cambodia,KH,<option value='KH'>Cambodia</option>
-Cameroon,CM,<option value='CM'>Cameroon</option>
-Canada,CA,<option value='CA'>Canada</option>
-Cape Verde Islands,CV,<option value='CV'>Cape Verde Islands</option>
-Cayman Islands,KY,<option value='KY'>Cayman Islands</option>
-Central African Republic,CF,<option value='CF'>Central African Republic</option>
-Chad,TD,<option value='TD'>Chad</option>
-Chile,CL,<option value='CL'>Chile</option>
-China,CN,<option value='CN'>China</option>
-Colombia,CO,<option value='CO'>Colombia</option>
-Comoros,KM,<option value='KM'>Comoros</option>
-Democratic Republic of the Congo,ZR,<option value='ZR'>Democratic Republic of the Congo</option>
-Republic of the Congo,CG,<option value='CG'>Republic of the Congo</option>
-Cook Islands,CK,<option value='CK'>Cook Islands</option>
-Costa Rica,CR,<option value='CR'>Costa Rica</option>
-Cote d Ivoire (Ivory Coast),CI,<option value='CI'>Cote d Ivoire (Ivory Coast)</option>
-Democratic Republic of the Croatia,HR,<option value='HR'>Democratic Republic of the Croatia</option>
-Cuba,CU,<option value='CU'>Cuba</option>
-Cyprus,CY,<option value='CY'>Cyprus</option>
-Czech Republic,CZ,<option value='CZ'>Czech Republic</option>
-Denmark,DK,<option value='DK'>Denmark</option>
-Djibouti,DJ,<option value='DJ'>Djibouti</option>
-Dominica,DM,<option value='DM'>Dominica</option>
-Dominican Republic,DO,<option value='DO'>Dominican Republic</option>
-Ecuador,EC,<option value='EC'>Ecuador</option>
-Egypt,EG,<option value='EG'>Egypt</option>
-El Salvador,SV,<option value='SV'>El Salvador</option>
-Equatorial Guinea,GQ,<option value='GQ'>Equatorial Guinea</option>
-Eritrea,ER,<option value='ER'>Eritrea</option>
-Estonia,EE,<option value='EE'>Estonia</option>
-Ethiopia,ET,<option value='ET'>Ethiopia</option>
-Falkland Islands (Islas Makvinas),FK,<option value='FK'>Falkland Islands (Islas Makvinas)</option>
-Fiji,FJ,<option value='FJ'>Fiji</option>
-Finland,FI,<option value='FI'>Finland</option>
-France,FR,<option value='FR'>France</option>
-French Guiana,GF,<option value='GF'>French Guiana</option>
-French Polynesia,PF,<option value='PF'>French Polynesia</option>
-French Southern Territories,TF,<option value='TF'>French Southern Territories</option>
-Gabon,GA,<option value='GA'>Gabon</option>
-Gambia,GM,<option value='GM'>Gambia</option>
-Georgia,GE,<option value='GE'>Georgia</option>
-Germany,DE,<option value='DE'>Germany</option>
-Ghana,GH,<option value='GH'>Ghana</option>
-Gibraltar,GI,<option value='GI'>Gibraltar</option>
-Greece,GR,<option value='GR'>Greece</option>
-Greenland,GL,<option value='GL'>Greenland</option>
-Grenada,GD,<option value='GD'>Grenada</option>
-Grenadines,VC,<option value='VC'>Grenadines</option>
-Guadeloupe,GP,<option value='GP'>Guadeloupe</option>
-Guam,GU,<option value='GU'>Guam</option>
-Guatemala,GT,<option value='GT'>Guatemala</option>
-Guernsey,QQ,<option value='QQ'>Guernsey</option>
-Guinea,GN,<option value='GN'>Guinea</option>
-Guinea-Bissau,GW,<option value='GW'>Guinea-Bissau</option>
-Guyana,GY,<option value='GY'>Guyana</option>
-Haiti,HT,<option value='HT'>Haiti</option>
-Honduras,HN,<option value='HN'>Honduras</option>
-Hong Kong,HK,<option value='HK'>Hong Kong</option>
-Hungary,HU,<option value='HU'>Hungary</option>
-Iceland,IS,<option value='IS'>Iceland</option>
-India,IN,<option value='IN'>India</option>
-Indonesia,ID,<option value='ID'>Indonesia</option>
-Iran,IR,<option value='IR'>Iran</option>
-Iraq,IQ,<option value='IQ'>Iraq</option>
-Ireland,IE,<option value='IE'>Ireland</option>
-Israel,IL,<option value='IL'>Israel</option>
-Italy,IT,<option value='IT'>Italy</option>
-Jamaica,JM,<option value='JM'>Jamaica</option>
-Jan Mayen,SJ,<option value='SJ'>Jan Mayen</option>
-Japan,JP,<option value='JP'>Japan</option>
-Jersey,GB,<option value='GB'>Jersey</option>
-Jordan,JO,<option value='JO'>Jordan</option>
-Kazakhstan,KZ,<option value='KZ'>Kazakhstan</option>
-Kenya,KE,<option value='KE'>Kenya</option>
-Kiribati,KI,<option value='KI'>Kiribati</option>
-North Korea,KP,<option value='KP'>North Korea</option>
-South Korea,KR,<option value='KR'>South Korea</option>
-Kuwait,KW,<option value='KW'>Kuwait</option>
-Kyrgyzstan,KG,<option value='KG'>Kyrgyzstan</option>
-Laos,LA,<option value='LA'>Laos</option>
-Latvia,LV,<option value='LV'>Latvia</option>
-South Lebanon,LB,<option value='LB'>South Lebanon</option>
-Lesotho,LS,<option value='LS'>Lesotho</option>
-Liberia,LR,<option value='LR'>Liberia</option>
-Libya,LY,<option value='LY'>Libya</option>
-Liechtenstein,LI,<option value='LI'>Liechtenstein</option>
-Lithuania,LT,<option value='LT'>Lithuania</option>
-Luxembourg,LU,<option value='LU'>Luxembourg</option>
-Macau,MO,<option value='MO'>Macau</option>
-Macedonia,MK,<option value='MK'>Macedonia</option>
-Madagascar,MG,<option value='MG'>Madagascar</option>
-Malawi,MW,<option value='MW'>Malawi</option>
-Malaysia,MY,<option value='MY'>Malaysia</option>
-Maldives,MV,<option value='MV'>Maldives</option>
-Mali,ML,<option value='ML'>Mali</option>
-Malta,MT,<option value='MT'>Malta</option>
-Marshall Islands,MH,<option value='MH'>Marshall Islands</option>
-Martinique,MQ,<option value='MQ'>Martinique</option>
-Mauritania,MR,<option value='MR'>Mauritania</option>
-Mauritius,MU,<option value='MU'>Mauritius</option>
-Mayotte,YT,<option value='YT'>Mayotte</option>
-Mexico,MX,<option value='MX'>Mexico</option>
-Micronesia,MI,<option value='MI'>Micronesia</option>
-Moldova,MD,<option value='MD'>Moldova</option>
-Monaco,MC,<option value='MC'>Monaco</option>
-Mongolia,MN,<option value='MN'>Mongolia</option>
-Montenegro,ME,<option value='ME'>Montenegro</option>
-Montserrat,MS,<option value='MS'>Montserrat</option>
-Morocco,MA,<option value='MA'>Morocco</option>
-Mozambique,MZ,<option value='MZ'>Mozambique</option>
-Namibia,NA,<option value='NA'>Namibia</option>
-Nauru,NR,<option value='NR'>Nauru</option>
-Nepal,NP,<option value='NP'>Nepal</option>
-Netherlands,NL,<option value='NL'>Netherlands</option>
-Netherlands Antilles,AN,<option value='AN'>Netherlands Antilles</option>
-New Caledonia,NC,<option value='NC'>New Caledonia</option>
-New Zealand,NZ,<option value='NZ'>New Zealand</option>
-Nicaragua,NI,<option value='NI'>Nicaragua</option>
-Niger,NE,<option value='NE'>Niger</option>
-Nigeria,NG,<option value='NG'>Nigeria</option>
-Niue,NU,<option value='NU'>Niue</option>
-Norway,NO,<option value='NO'>Norway</option>
-Oman,OM,<option value='OM'>Oman</option>
-Pakistan,PK,<option value='PK'>Pakistan</option>
-Palau,PW,<option value='PW'>Palau</option>
-Panama,PA,<option value='PA'>Panama</option>
-Papua New Guinea,PG,<option value='PG'>Papua New Guinea</option>
-Paraguay,PY,<option value='PY'>Paraguay</option>
-Peru,PE,<option value='PE'>Peru</option>
-Philippines,PH,<option value='PH'>Philippines</option>
-Poland,PL,<option value='PL'>Poland</option>
-Portugal,PT,<option value='PT'>Portugal</option>
-Qatar,QA,<option value='QA'>Qatar</option>
-R ion,RE,<option value='RE'>R ion</option>
-Romania,RO,<option value='RO'>Romania</option>
-Russian Federation,RU,<option value='RU'>Russian Federation</option>
-Rwanda,RW,<option value='RW'>Rwanda</option>
-Saint Helena,SH,<option value='SH'>Saint Helena</option>
-Saint Kitts-Nevis,KN,<option value='KN'>Saint Kitts-Nevis</option>
-Saint Lucia,LC,<option value='LC'>Saint Lucia</option>
-Saint Pierre and Miquelon,PM,<option value='PM'>Saint Pierre and Miquelon</option>
-San Marino,SM,<option value='SM'>San Marino</option>
-Saudi Arabia,SA,<option value='SA'>Saudi Arabia</option>
-Senegal,SN,<option value='SN'>Senegal</option>
-Serbia,RS,<option value='RS'>Serbia</option>
-Seychelles,SC,<option value='SC'>Seychelles</option>
-Sierra Leone,SL,<option value='SL'>Sierra Leone</option>
-Singapore,SG,<option value='SG'>Singapore</option>
-Slovakia,SK,<option value='SK'>Slovakia</option>
-Slovenia,SI,<option value='SI'>Slovenia</option>
-Solomon Islands,SB,<option value='SB'>Solomon Islands</option>
-Somalia,SO,<option value='SO'>Somalia</option>
-South Africa,ZA,<option value='ZA'>South Africa</option>
-Spain,ES,<option value='ES'>Spain</option>
-Sri Lanka,LK,<option value='LK'>Sri Lanka</option>
-Sudan,SD,<option value='SD'>Sudan</option>
-Suriname,SR,<option value='SR'>Suriname</option>
-Svalbard,SJ,<option value='SJ'>Svalbard</option>
-Swaziland,SZ,<option value='SZ'>Swaziland</option>
-Sweden,SE,<option value='SE'>Sweden</option>
-Switzerland,CH,<option value='CH'>Switzerland</option>
-Syria,SY,<option value='SY'>Syria</option>
-Tahiti,PF,<option value='PF'>Tahiti</option>
-Taiwan,TW,<option value='TW'>Taiwan</option>
-Tajikistan,TJ,<option value='TJ'>Tajikistan</option>
-Tanzania,TZ,<option value='TZ'>Tanzania</option>
-Thailand,TH,<option value='TH'>Thailand</option>
-Togo,TG,<option value='TG'>Togo</option>
-Tonga,TO,<option value='TO'>Tonga</option>
-Trinidad and Tobago,TT,<option value='TT'>Trinidad and Tobago</option>
-Tunisia,TN,<option value='TN'>Tunisia</option>
-Turkey,TR,<option value='TR'>Turkey</option>
-Turkmenistan,TM,<option value='TM'>Turkmenistan</option>
-Turks and Caicos Islands,TC,<option value='TC'>Turks and Caicos Islands</option>
-Uganda,UG,<option value='UG'>Uganda</option>
-Ukraine,UA,<option value='UA'>Ukraine</option>
-United Arab Emirates,AE,<option value='AE'>United Arab Emirates</option>
-United Kingdom,UK,<option value='UK'>United Kingdom</option>
-Uruguay,UY,<option value='UY'>Uruguay</option>
-Uzbekistan,UZ,<option value='UZ'>Uzbekistan</option>
-Vanuatu,VU,<option value='VU'>Vanuatu</option>
-Vatican City State,VA,<option value='VA'>Vatican City State</option>
-Venezuela,VE,<option value='VE'>Venezuela</option>
-Vietnam,VN,<option value='VN'>Vietnam</option>
-Virgin Islands (U.S.),VI,<option value='VI'>Virgin Islands (U.S.)</option>
-Wallis and Futuna,WF,<option value='WF'>Wallis and Futuna</option>
-Western Sahara,EH,<option value='EH'>Western Sahara</option>
-Western Samoa,WS,<option value='WS'>Western Samoa</option>
-Yemen,YE,<option value='YE'>Yemen</option>
-Yugoslavia,YU,<option value='YU'>Yugoslavia</option>
-Zambia,ZM,<option value='ZM'>Zambia</option>
-Zimbabwe,ZW,<option value='ZW'>Zimbabwe</option>
+Afghanistan,AF
+Albania,AL
+Algeria,DZ
+American Samoa,AS
+Andorra,AD
+Angola,AO
+Anguilla,AI
+Antigua and Barbuda,AG
+Argentina,AR
+Armenia,AM
+Aruba,AW
+Australia,AU
+Austria,AT
+Azerbaijan Republic,AZ
+Bahamas,BS
+Bahrain,BH
+Bangladesh,BD
+Barbados,BB
+Belarus,BY
+Belgium,BE
+Belize,BZ
+Benin,BJ
+Bermuda,BM
+Bhutan,BT
+Bolivia,BO
+Bosnia and Herzegovina,BA
+Botswana,BW
+Brazil,BR
+British Virgin Islands,VG
+Brunei Darussalam,BN
+Bulgaria,BG
+Burkina Faso,BF
+Burma,MM
+Burundi,BI
+Cambodia,KH
+Cameroon,CM
+Canada,CA
+Cape Verde Islands,CV
+Cayman Islands,KY
+Central African Republic,CF
+Chad,TD
+Chile,CL
+China,CN
+Colombia,CO
+Comoros,KM
+Democratic Republic of the Congo,ZR
+Republic of the Congo,CG
+Cook Islands,CK
+Costa Rica,CR
+Cote d Ivoire (Ivory Coast),CI
+Democratic Republic of the Croatia,HR
+Cuba,CU
+Cyprus,CY
+Czech Republic,CZ
+Denmark,DK
+Djibouti,DJ
+Dominica,DM
+Dominican Republic,DO
+Ecuador,EC
+Egypt,EG
+El Salvador,SV
+Equatorial Guinea,GQ
+Eritrea,ER
+Estonia,EE
+Ethiopia,ET
+Falkland Islands (Islas Makvinas),FK
+Fiji,FJ
+Finland,FI
+France,FR
+French Guiana,GF
+French Polynesia,PF
+French Southern Territories,TF
+Gabon,GA
+Gambia,GM
+Georgia,GE
+Germany,DE
+Ghana,GH
+Gibraltar,GI
+Greece,GR
+Greenland,GL
+Grenada,GD
+Grenadines,VC
+Guadeloupe,GP
+Guam,GU
+Guatemala,GT
+Guernsey,QQ
+Guinea,GN
+Guinea-Bissau,GW
+Guyana,GY
+Haiti,HT
+Honduras,HN
+Hong Kong,HK
+Hungary,HU
+Iceland,IS
+India,IN
+Indonesia,ID
+Iran,IR
+Iraq,IQ
+Ireland,IE
+Israel,IL
+Italy,IT
+Jamaica,JM
+Jan Mayen,SJ
+Japan,JP
+Jersey,GB
+Jordan,JO
+Kazakhstan,KZ
+Kenya,KE
+Kiribati,KI
+North Korea,KP
+South Korea,KR
+Kuwait,KW
+Kyrgyzstan,KG
+Laos,LA
+Latvia,LV
+South Lebanon,LB
+Lesotho,LS
+Liberia,LR
+Libya,LY
+Liechtenstein,LI
+Lithuania,LT
+Luxembourg,LU
+Macau,MO
+Macedonia,MK
+Madagascar,MG
+Malawi,MW
+Malaysia,MY
+Maldives,MV
+Mali,ML
+Malta,MT
+Marshall Islands,MH
+Martinique,MQ
+Mauritania,MR
+Mauritius,MU
+Mayotte,YT
+Mexico,MX
+Micronesia,MI
+Moldova,MD
+Monaco,MC
+Mongolia,MN
+Montenegro,ME
+Montserrat,MS
+Morocco,MA
+Mozambique,MZ
+Namibia,NA
+Nauru,NR
+Nepal,NP
+Netherlands,NL
+Netherlands Antilles,AN
+New Caledonia,NC
+New Zealand,NZ
+Nicaragua,NI
+Niger,NE
+Nigeria,NG
+Niue,NU
+Norway,NO
+Oman,OM
+Pakistan,PK
+Palau,PW
+Panama,PA
+Papua New Guinea,PG
+Paraguay,PY
+Peru,PE
+Philippines,PH
+Poland,PL
+Portugal,PT
+Qatar,QA
+R ion,RE
+Romania,RO
+Russian Federation,RU
+Rwanda,RW
+Saint Helena,SH
+Saint Kitts-Nevis,KN
+Saint Lucia,LC
+Saint Pierre and Miquelon,PM
+San Marino,SM
+Saudi Arabia,SA
+Senegal,SN
+Serbia,RS
+Seychelles,SC
+Sierra Leone,SL
+Singapore,SG
+Slovakia,SK
+Slovenia,SI
+Solomon Islands,SB
+Somalia,SO
+South Africa,ZA
+Spain,ES
+Sri Lanka,LK
+Sudan,SD
+Suriname,SR
+Svalbard,SJ
+Swaziland,SZ
+Sweden,SE
+Switzerland,CH
+Syria,SY
+Tahiti,PF
+Taiwan,TW
+Tajikistan,TJ
+Tanzania,TZ
+Thailand,TH
+Togo,TG
+Tonga,TO
+Trinidad and Tobago,TT
+Tunisia,TN
+Turkey,TR
+Turkmenistan,TM
+Turks and Caicos Islands,TC
+Uganda,UG
+Ukraine,UA
+United Arab Emirates,AE
+United Kingdom,UK
+Uruguay,UY
+Uzbekistan,UZ
+Vanuatu,VU
+Vatican City State,VA
+Venezuela,VE
+Vietnam,VN
+Virgin Islands (U.S.),VI
+Wallis and Futuna,WF
+Western Sahara,EH
+Western Samoa,WS
+Yemen,YE
+Yugoslavia,YU
+Zambia,ZM
+Zimbabwe,ZW

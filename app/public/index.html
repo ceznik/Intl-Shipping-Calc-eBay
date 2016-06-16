@@ -20,7 +20,7 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
 
 	<!-- Firebase -->
-  	<script src="https://www.gstatic.com/firebasejs/3.0.2/firebase.js"></script>
+  	<script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
 
 
 </head>
@@ -50,7 +50,8 @@
 							<th>Weight</th>
 							<th>G + L</th>
 							<th>Delivery Option</th>
-							<th>Cost</th>
+							<th>Ultra Rate</th>
+							<th>List Rate</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -63,6 +64,7 @@
 							<th>Weight</th>
 							<th>Dimensions</th>
 							<th>Cost</th>
+							<th>List</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -303,7 +305,7 @@
 				<option value='UG'>Uganda</option>
 				<option value='UA'>Ukraine</option>
 				<option value='AE'>United Arab Emirates</option>
-				<option value='UK'>United Kingdom</option>
+				<option value='GB'>United Kingdom</option>
 				<option value='UY'>Uruguay</option>
 				<option value='UZ'>Uzbekistan</option>
 				<option value='VU'>Vanuatu</option>
@@ -322,6 +324,7 @@
 	      </div>
 	      <button type="button" class="btn btn-info" id="getShippingOptions">Get Shipping Options</button>
 	      <button type="button" class="btn btn-info" id="calcShippingRates">Calculate Shipping Rates</button>
+	      <button type="button" class="btn btn-info" id="modalClose" data-dismiss="modal">Close</button>
 	    </div>
 	  </div>
 	</div>
@@ -330,8 +333,10 @@
 		<tr>
 			<th>Region</th>
 			<th>Country</th>
-			<th>Base Price</th>
-			<th>Price per Pound</th>
+			<th>Ultra Base Price</th>
+			<th>Ultra Price per Pound</th>
+			<th>List Base Price</th>
+			<th>List Price per Pound</th>
 		</tr>
 	</thead>
 	<tbody></tbody>
@@ -341,9 +346,14 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		var currentURL	= window.location.origin;
+		  // Initialize Firebase
+		var shippingDB = new Firebase("https://blazing-inferno-5503.firebaseio.com/");
+
+		//Firebase database push test
+		//shippingDB.push(['test1', 'test2', 'test3', 'test 4', 'test 5']);
 
 		$('#compTable').DataTable({
-			data:[['North America','Canada','37.00','1.50'],['Europe', 'France','85.00', '6.00'],['Europe','Russian Federation','45.00','5.00'],['Oceania','Australia','125.00','8.50'],['Europe','Albania','97.00','54.00']],
+			data:[['North America','Canada','37.00','1.50','99.00','3.00'],['Europe', 'France','85.00', '6.00','164.00','12.00'],['Europe','Russian Federation','45.00','5.00','120.00','15.00'],['Oceania','Australia','125.00','8.50','289.00','24.00'],['Europe','Albania','97.00','54.00','165.00','99.00']],
 			"searching":false,
 			"info":false,
 			"paging":false
@@ -358,7 +368,8 @@
 			var $_avg;
 
 
-			$('#shipTable').hide(); // hide the shipping options table on the opening modal page.
+			$('#shipRateContainer').show(); // hide the shipping options table on the opening modal page.
+			$('#shipTableContainer').hide();
 
 
 			//get shipping quotes for each weight and dimension combination
@@ -366,15 +377,8 @@
 				var x_sum;
 				for(var j = 0; j < weights.length; j++){
 					CalcRate(weights[j], dims[i]);
-					x_sum += weights[i];
-					console.log("RATE ARRAY===");
- 					console.log(rateArray);
 				}
 			}
-
-
-
-
 			function CalcRate(weight, dim){
 				var shippingQuery = {
 				weight: weight,
@@ -395,7 +399,8 @@
 				}
 				$.post(currentURL + "/rates", shippingQuery,
 					function(data){
-						rateArray.push([shippingWeight, dim, data]);
+						console.log(data);
+						rateArray.push([shippingWeight, dim, data[0], data[1]]);
 					}).then(function(){
 							$('#shippingRates').DataTable({
 								data: rateArray,
@@ -420,7 +425,8 @@
 				zip: $('#inputZip').val().trim(),
 				country: $('#inputCountry').val().trim()
 			};
-			$('#shippingRates').hide();
+			$('#shipTableContainer').show();
+			$('#shipRateContainer').hide();
 			$.post(currentURL + "/ship", shippingQuery,
 				function(data){
 					$('#shipTable').DataTable({
@@ -431,6 +437,7 @@
 						"ordering":false,
 						"destroy":true
 					});
+					console.log(data);
 			});
 		});
 	});
@@ -459,5 +466,6 @@
 #shipTableContainer, #shipRateContainer {
 	float: right;
 	position: relative;
+	display:none;
 }
 </style>

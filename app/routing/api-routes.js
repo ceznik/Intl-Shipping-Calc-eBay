@@ -1,27 +1,41 @@
-var cc = require('../ratecalc/countrycodes.js');
+var fs = require('fs');
 var path = require('path');
 var fedexAPI = require('shipping-fedex');
-//console.log(fedex('BE', '6540', '10', '4', '3', '2'));
+var cc = require('../ratecalc/countrycodes.js');
+//FEDEX API config
+var creds = {
+	sandbox: {
+		environment: 'sandbox', //live or sandbox
+		debug: false,
+		key: 'kW1xOjPyNZVDYxRf',
+		password: 'YNwXWDnDZ5XlwTStCCNyU8LOc',
+		account_number: '510087100', //dev test account number
+		meter_number: '118724066',
+		imperial: true // set to false for metric 
+	},
+	live: {
+		environment: 'live',
+		debug: false,
+		key: '59AxzdOlTRAhFBZl',
+		password: 'ro9MrYxzjqqQap8f1WOBIBEos',
+		account_number: '407973461',
+		meter_number: '109530939',
+		imperial: true
+	}
+}
+var selectedEnv = creds.live;
+
+var fedex = new fedexAPI(selectedEnv);
 
 
+console.log(cc[3][1]);
 module.exports = function(app){
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/../public/index.html'));
 	});
 
+//This route calculates the shipping cost for given weights, dimensions, and location
 	app.post('/ship', function(request, response){
-		//FEDEX API config
-		var fedex = new fedexAPI({
-			environment: 'sandbox', // or live or sandbox
-		    debug: false,
-		    key: 'kW1xOjPyNZVDYxRf',
-		    password: 'YNwXWDnDZ5XlwTStCCNyU8LOc',
-		    account_number: '510087100', //dev test account number
-		    meter_number: '118724066',
-		    imperial: true // set to false for metric 
-		});
-
-
 		fedex.rates({
 			ReturnTransitAndCommit: true,
 			CarrierCodes: ['FDXE','FDXG'],
@@ -93,33 +107,24 @@ module.exports = function(app){
 		  var resultArray = [];
 		  var results = res.RateReplyDetails
 		  if(err) throw err;
-		  //console.log(results);
+		  //console.log(res);
 			if (results !== undefined){
 				for(var i = 0; i < results.length; i++){
-					resultArray.push([request.body.weight, 2*(parseInt(request.body.width)+parseInt(request.body.height))+parseInt(request.body.length), results[i].ServiceType, '$' + results[i].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
+					console.log("Sending results to browser...");
+					resultArray.push([request.body.weight, 2*(parseInt(request.body.width)+parseInt(request.body.height))+parseInt(request.body.length), results[i].ServiceType, '$' + results[i].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount, '$' + results[i].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
 				}
 			}
 			else {
-			  console.log("No results to display"); 
+			  console.log("No results to display");
+			  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
+
 			}
 			response.send(resultArray);
 			
 		});
 	});
-
+//This route calculates the generic shipping rates for a given country using dim = l = w = h
 	app.post('/rates', function(request, response){
-		//FEDEX API config
-		var fedex = new fedexAPI({
-			environment: 'sandbox', // or live or sandbox
-		    debug: false,
-		    key: 'kW1xOjPyNZVDYxRf',
-		    password: 'YNwXWDnDZ5XlwTStCCNyU8LOc',
-		    account_number: '510087100', //dev test account number
-		    meter_number: '118724066',
-		    imperial: true // set to false for metric 
-		});
-
-
 		fedex.rates({
 			ReturnTransitAndCommit: true,
 			CarrierCodes: ['FDXE','FDXG'],
@@ -193,13 +198,17 @@ module.exports = function(app){
 		  if(err) throw err;
 		  //console.log(results);
 			if (results !== undefined){
-				response.send('$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount)
+				console.log("Sending results to browser...");
+				response.send(['$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount, results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
 			}
 			else {
-			  console.log("No results to display"); 
+			  console.log("No results to display");
+			  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
 			}
-			//response.send(resultArray);
+
 			
 		});
 	});
+
+
 }
