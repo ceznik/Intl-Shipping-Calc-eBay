@@ -371,7 +371,6 @@
 			$('#shipRateContainer').show(); // hide the shipping options table on the opening modal page.
 			$('#shipTableContainer').hide();
 
-
 			//get shipping quotes for each weight and dimension combination
 			for(var i = 0; i < dims.length; i++){
 				var x_sum;
@@ -390,16 +389,16 @@
 				};				
 				var shippingWeight;
 				if((Math.pow(dim,3) >= 5184) && (Math.pow(dim,3) / 139 > weight)){
-					console.log("Division flow");
+					//console.log("Division flow");
 					shippingWeight = (Math.pow(dim,3)/139).toFixed(1);
 				}
 				else{
-					console.log("Weight Flow");
+					//console.log("Weight Flow");
 					shippingWeight = weight.toFixed(1);
 				}
 				$.post(currentURL + "/rates", shippingQuery,
 					function(data){
-						console.log(data);
+						//console.log(data);
 						rateArray.push([shippingWeight, dim, data[0], data[1]]);
 					}).then(function(){
 							$('#shippingRates').DataTable({
@@ -409,6 +408,7 @@
 								"info":false,
 								"ordering":true,
 								"destroy":true,
+								"order": [[1,'asc'],[0,'asc']],
 								"dom":'<"toolbar">frtip'
 							});
 							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>');

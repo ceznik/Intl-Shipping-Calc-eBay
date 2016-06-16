@@ -23,12 +23,12 @@ var creds = {
 		imperial: true
 	}
 }
-var selectedEnv = creds.live;
+var selectedEnv = creds.sandbox;
 
 var fedex = new fedexAPI(selectedEnv);
 
 
-console.log(cc[3][1]);
+
 module.exports = function(app){
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/../public/index.html'));
@@ -205,10 +205,56 @@ module.exports = function(app){
 			  console.log("No results to display");
 			  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
 			}
-
-			
 		});
 	});
+//This route will be used to calculate the shipping rates across all countries
 
+	app.get('/allrates', function(request, response){
+		var dims = [1, 2, 4, 8, 16, 32];
+		var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+		for(i = 0; i < cc.length; i++){
+			var ultraRate = [];
+			var listRate = [];
+			for(j = 0; j < dims.length; j++){
+				for(k = 0; k < weights.length; k++){
+					var rateResult = intlRateCalc(cc[i][1], dims[j], weights[k]);
+					ultraRate.push(rateResult[0]);
+					listRate.push(rateResult[1]);
+				}
+				var lr_ultra = linearRegression(ultraRate,weights);
+				var lr_list = linearRegression(listRate, weights);
+				countryRateArray_Ultra.push(lr_ultra.slope);
+				countryRateArray_List.push(lr_list.slope);
+			}
+			countryBaseRate_Ultra = min(countryRateArray_Ultra);
+			countryBaseRate_List = min(countryRateArray_List);
+		}
+		function intlRateCalc(country, dim, weight){ //returns an array of two numbers = [ultraRate, listRate]
 
+		}
+		function linearRegression(y, x){
+			var lr = {};
+	        var n = y.length;
+	        var sum_x = 0;
+	        var sum_y = 0;
+	        var sum_xy = 0;
+	        var sum_xx = 0;
+	        var sum_yy = 0;
+
+	        for (var i = 0; i < y.length; i++) {
+
+	            sum_x += x[i];
+	            sum_y += y[i];
+	            sum_xy += (x[i]*y[i]);
+	            sum_xx += (x[i]*x[i]);
+	            sum_yy += (y[i]*y[i]);
+	        } 
+
+	        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+	        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+	        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+
+	        return lr;
+		}
+	});
 }
