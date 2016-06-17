@@ -387,19 +387,19 @@
 				zip: $('#inputZip').val().trim(),
 				country: $('#inputCountry').val().trim()
 				};				
-				var shippingWeight;
-				if((Math.pow(dim,3) >= 5184) && (Math.pow(dim,3) / 139 > weight)){
-					//console.log("Division flow");
-					shippingWeight = (Math.pow(dim,3)/139).toFixed(1);
-				}
-				else{
-					//console.log("Weight Flow");
-					shippingWeight = weight.toFixed(1);
-				}
+				// var shippingWeight;
+				// if((Math.pow(dim,3) >= 5184) && (Math.pow(dim,3) / 139 > weight)){
+				// 	//console.log("Division flow");
+				// 	shippingWeight = (Math.pow(dim,3)/139).toFixed(1);
+				// }
+				// else{
+				// 	//console.log("Weight Flow");
+				// 	shippingWeight = weight.toFixed(1);
+				//}
 				$.post(currentURL + "/rates", shippingQuery,
 					function(data){
 						//console.log(data);
-						rateArray.push([shippingWeight, dim, data[0], data[1]]);
+						rateArray.push([weight, dim, data[0], data[1]]);
 					}).then(function(){
 							$('#shippingRates').DataTable({
 								data: rateArray,

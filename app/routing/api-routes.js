@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var fedexAPI = require('shipping-fedex');
 var cc = require('../ratecalc/countrycodes.js');
+var async = require('async');
 //FEDEX API config
 var creds = {
 	sandbox: {
@@ -212,24 +213,146 @@ module.exports = function(app){
 	app.get('/allrates', function(request, response){
 		var dims = [1, 2, 4, 8, 16, 32];
 		var weights = [1, 2, 4, 8, 16, 32, 64, 128];
-		for(i = 0; i < cc.length; i++){
-			var ultraRate = [];
-			var listRate = [];
-			for(j = 0; j < dims.length; j++){
-				for(k = 0; k < weights.length; k++){
-					var rateResult = intlRateCalc(cc[i][1], dims[j], weights[k]);
-					ultraRate.push(rateResult[0]);
-					listRate.push(rateResult[1]);
-				}
-				var lr_ultra = linearRegression(ultraRate,weights);
-				var lr_list = linearRegression(listRate, weights);
-				countryRateArray_Ultra.push(lr_ultra.slope);
-				countryRateArray_List.push(lr_list.slope);
+		var countryDataArray = [];
+		var countryRate_Ultra, countryRate_List, countryBaseRate_Ultra, countryBaseRate_List;
+		//console.log(cc);
+		for(i = 0; i < 2; i++){
+			console.log('i= ', i);
+
+			for(j = 0; j < 2; j++){
+				console.log('j= ', j);
+				var ultraRate_arr = [];
+				var listRate_arr = [];
+				for(k = 0; k < 2; k++){
+					console.log('k= ', k);
+					console.log("country code: ", cc[i][2]);
+					console.log("postal code: ", cc[i][3]);
+					console.log("dimension: ", dims[i]);
+					console.log("weight: ", weights[k]);
+					var rateResult= [];
+					async.series([
+						function(callback){
+							intlRateCalc(cc[i][2], cc[i][3], dims[j], weights[k]);
+							setTimeout(function(){
+								callback(null, null);
+							}, 1000);
+						}
+					], function(error, results){
+							rateResult.push(results);
+							console.log(rateResult);
+							ultraRate_arr.push(i+1);
+							listRate_arr.push(i+1);
+						});	
+
+				} //weights
+				countryBaseRate_Ultra = Math.min(ultraRate_arr);
+				countryBaseRate_List = Math.min(listRate_arr);
+				console.log("sending to LR: ", ultraRate_arr, listRate_arr);	
+				var lr_ultra = linearRegression(ultraRate_arr, weights);
+				var lr_list = linearRegression(listRate_arr, weights);
+				console.log("Linear Regression Results======");
+				console.log(lr_ultra.slope, lr_list.slope);
+				console.log("====================");
+				countryRate_Ultra += lr_ultra.slope;
+				countryRate_List += lr_list.slope;
+			} //dims
+
+			countryRate_Ultra /= 6;
+			countryRate_List /= 6;
+			countryDataArray.push([cc[i][0], cc[i][1], countryBaseRate_Ultra, countryRate_Ultra, countryBaseRate_List, countryRate_List]);
+			console.log(countryDataArray);
+		}; //countries
+
+
+
+
+
+	});
+	function intlRateCalc(country, zip, dim, weight) { //returns an array of two numbers = [ultraRate, listRate]
+			//use the fedex rates function to calculate the acct and list rates.
+			console.log("intlRateCalc");
+			fedex.rates({
+			ReturnTransitAndCommit: true,
+			CarrierCodes: ['FDXE','FDXG'],
+			RequestedShipment: {
+			  DropoffType: 'REGULAR_PICKUP',
+			  //ServiceType: 'FEDEX_GROUND',
+			  PackagingType: 'YOUR_PACKAGING',
+			  Shipper: {
+			    Contact: {
+			      PersonName: 'Shipping Department',
+			      CompanyName: 'Ultrarev, Inc.',
+			      PhoneNumber: '73299383999'
+			    },
+			    Address: {
+			      StreetLines: [
+			        '120 Central Ave.'
+			      ],
+			      City: 'Farmingdale',
+			      StateOrProvinceCode: 'NJ',
+			      PostalCode: '07727',
+			      CountryCode: 'US'
+			    }
+			  },
+			  Recipient: {
+			    Contact: {
+			      PersonName: '',
+			      CompanyName: '',
+			      PhoneNumber: ''
+			    },
+			    Address: {
+			      StreetLines: [
+			        ''
+			      ],
+			      City: '',
+			      StateOrProvinceCode: '',
+			      PostalCode: '',
+			      CountryCode: 'AF',
+			      Residential: true
+			    }
+			  },
+
+			  ShippingChargesPayment: {
+			    PaymentType: 'SENDER',
+			    Payor: {
+			      ResponsibleParty: {
+			        AccountNumber: fedex.options.account_number
+			      }
+			    }
+			  },
+			  RateRequestTypes:'LIST',
+			  PackageCount: '1',
+			  RequestedPackageLineItems: {
+			    SequenceNumber: 1,
+			    GroupPackageCount: 1,
+			    Weight: {
+			      Units: 'LB',
+			      Value: weight
+			    },
+			    Dimensions: {
+			      Length: dim,
+			      Width: dim,
+			      Height: dim,
+			      Units: 'IN'
+			    }
+			  }
 			}
-			countryBaseRate_Ultra = min(countryRateArray_Ultra);
-			countryBaseRate_List = min(countryRateArray_List);
-		}
-		function intlRateCalc(country, dim, weight){ //returns an array of two numbers = [ultraRate, listRate]
+		},
+			function (err, res) {
+			  var resultArray = [];
+			  var results = res.RateReplyDetails
+			  if(err) throw err;
+			  //console.log(results);
+				if (results !== undefined){
+					console.log("Sending results to browser...");
+					console.log([parseInt(results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount), parseInt(results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount)]);
+					return([parseInt(results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount), parseInt(results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount)]);
+				}
+				else {
+				  console.log("No results to display");
+				  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
+				}
+			});
 
 		}
 		function linearRegression(y, x){
@@ -256,5 +379,4 @@ module.exports = function(app){
 
 	        return lr;
 		}
-	});
 }
