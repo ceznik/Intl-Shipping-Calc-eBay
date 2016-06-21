@@ -328,6 +328,7 @@
 	    </div>
 	  </div>
 	</div>
+	<button type="button" class="btn btn-info" id="calcAllCountries">Refresh All Countries</button>
     <table id="compTable" class="display" cellspacing="0" width="80%">
 	<thead>
 		<tr>
@@ -351,6 +352,73 @@
 
 		//Firebase database push test
 		//shippingDB.push(['test1', 'test2', 'test3', 'test 4', 'test 5']);
+
+		$('#calcAllCountries').on('click', function(){
+			//alert("About to calculate all countries...");
+			console.log(currentURL);
+			var resultArray = [];
+			var dims = [1, 2, 4, 8, 16, 32];
+			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+			var rateArray_Ultra = [];
+			var rateArray_List = [];
+			$.get("/allrates", function(country, status){
+				console.log("Data: " + country.length + "\nStatus: " + status);
+				for (i = 1; i < 4; i++){
+					console.log(country[i]);
+					for(j = 0; j < 2; j++){
+
+						for(k = 0; k < 2; k++){
+							calcCountryRate(weights[k], dims[j], country[i][2], country[i][3]);
+							//console.log("RateResponse: ", rateResponse);
+						}
+						var lr_Ultra = linearRegression(rateArray_Ultra, weights);
+						var baseRate_Ultra = lr_Ultra.slope;
+
+						console.log("Base Rate, Ultra: ", baseRate_Ultra);
+					}
+				}
+			});
+			function calcCountryRate(w, d, cc, pc){
+				var shippingQuery = {
+				weight: w,
+				length: d,
+				height: d,
+				width: d,
+				zip: pc,
+				country: cc
+				};				
+				$.post(currentURL + "/rates", shippingQuery, function(rates){
+					console.log("Rates: ", rates);
+					rateArray_Ultra.push(rates[0]);
+					rateArray_List.push(rates[1]);
+				});
+			}
+			function linearRegression(y, x){
+					var lr = {};
+		        var n = y.length;
+		        var sum_x = 0;
+		        var sum_y = 0;
+		        var sum_xy = 0;
+		        var sum_xx = 0;
+		        var sum_yy = 0;
+
+		        for (var i = 0; i < y.length; i++) {
+
+		            sum_x += x[i];
+		            sum_y += y[i];
+		            sum_xy += (x[i]*y[i]);
+		            sum_xx += (x[i]*x[i]);
+		            sum_yy += (y[i]*y[i]);
+		        } 
+
+		        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+		        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+		        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+
+		        return lr;
+			}
+
+		});
 
 		$('#compTable').DataTable({
 			data:[['North America','Canada','37.00','1.50','99.00','3.00'],['Europe', 'France','85.00', '6.00','164.00','12.00'],['Europe','Russian Federation','45.00','5.00','120.00','15.00'],['Oceania','Australia','125.00','8.50','289.00','24.00'],['Europe','Albania','97.00','54.00','165.00','99.00']],
@@ -387,7 +455,7 @@
 				zip: $('#inputZip').val().trim(),
 				country: $('#inputCountry').val().trim()
 				};				
-				// var shippingWeight;
+				// var shippingWeight; // SHIPPING WEIGHT CALCULATIONS.
 				// if((Math.pow(dim,3) >= 5184) && (Math.pow(dim,3) / 139 > weight)){
 				// 	//console.log("Division flow");
 				// 	shippingWeight = (Math.pow(dim,3)/139).toFixed(1);
