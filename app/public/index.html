@@ -419,12 +419,12 @@
 			$('#shipTableContainer').hide();
 
 			//get shipping quotes for each weight and dimension combination
-			for(var i = 0; i < dims.length; i++){
+				var dims = 8;
 				var x_sum;
 				for(var j = 0; j < weights.length; j++){
-					CalcRate(weights[j], dims[i]);
+					CalcRate(weights[j], dims);
 				}
-			}
+			
 			function CalcRate(weight, dim){
 				var shippingQuery = {
 				weight: weight,
@@ -449,7 +449,7 @@
 								"order": [[1,'asc'],[0,'asc']],
 								"dom":'<"toolbar">frtip'
 							});
-							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>');
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: ' + );
 					});
 			}
 		});
