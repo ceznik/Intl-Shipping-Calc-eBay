@@ -29,6 +29,118 @@ var selectedEnv = creds.live;
 
 var fedex = new fedexAPI(selectedEnv);
 
+var Country = function(name, region, cc, pc) {
+	this.name = name,
+	this.cCode = cc,
+	this.postalCode = pc,
+	this.region = region,
+	this.rateArray_Ultra = getRates('ultra'),
+	this.rateArray_List = getRates('list')
+	 // a 6 x 8 array of shipping costs used to determine the baseShippingCost and pricePerPound
+	baseShipping_Ultra = 0,
+	pricePerPound_Ultra = 0,
+	baseShipping_List = 0,
+	pricePerPound_List = 0
+
+};
+function getRates(rateType) {
+		var a = [];
+		var dims = 8;
+		var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+		for(var j = 0; j < weights.length; j++){
+			fedex.rates({
+				ReturnTransitAndCommit: true,
+				CarrierCodes: ['FDXE','FDXG'],
+				RequestedShipment: {
+				  DropoffType: 'REGULAR_PICKUP',
+				  //ServiceType: 'FEDEX_GROUND',
+				  PackagingType: 'YOUR_PACKAGING',
+				  Shipper: {
+				    Contact: {
+				      PersonName: 'Shipping Department',
+				      CompanyName: 'Ultrarev, Inc.',
+				      PhoneNumber: '73299383999'
+				    },
+				    Address: {
+				      StreetLines: [
+				        '120 Central Ave.'
+				      ],
+				      City: 'Farmingdale',
+				      StateOrProvinceCode: 'NJ',
+				      PostalCode: '07727',
+				      CountryCode: 'US'
+				    }
+				  },
+				  Recipient: {
+				    Contact: {
+				      PersonName: '',
+				      CompanyName: '',
+				      PhoneNumber: ''
+				    },
+				    Address: {
+				      StreetLines: [
+				        ''
+				      ],
+				      City: '',
+				      StateOrProvinceCode: '',
+				      PostalCode: this.postalCode,
+				      CountryCode: this.cCode,
+				      Residential: true
+				    }
+				  },
+
+				  ShippingChargesPayment: {
+				    PaymentType: 'SENDER',
+				    Payor: {
+				      ResponsibleParty: {
+				        AccountNumber: fedex.options.account_number
+				      }
+				    }
+				  },
+				  RateRequestTypes:'LIST',
+				  PackageCount: '1',
+				  RequestedPackageLineItems: {
+				    SequenceNumber: 1,
+				    GroupPackageCount: 1,
+				    Weight: {
+				      Units: 'LB',
+				      Value: weights[j]
+				    },
+				    Dimensions: {
+				      Length: dims,
+				      Width: dims,
+				      Height: dims,
+				      Units: 'IN'
+				    }
+				  }
+				}
+			},
+			function (err, res) {
+				if (res !== null){
+					var results = res.RateReplyDetails
+				  	if(err) throw err;
+				  	//console.log(results);
+					if (results !== undefined){
+						console.log("Sending results to browser...");
+						if (resultType == 'ultra') {
+							a.push(results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount);
+						}
+						else if (resultType == 'list'){
+							a.push(results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount);
+						}
+					}
+					else {
+					  console.log("No results to display");
+					  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
+					}
+				}
+				
+			});
+		}
+		return a;
+		
+	}
+
 //function getRates(weight, dims, countryCode, postalCode)
 
 module.exports = function(app){
@@ -202,13 +314,21 @@ module.exports = function(app){
 			if (results !== undefined){
 				console.log("Sending results to browser...");
 				//parse the response from FedEx and send back the account rate and the list rate for the subject package
-				response.send(['$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount, results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
+				response.send([results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount, results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
 			}
 			else {
 			  console.log("No results to display");
 			  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
 			}
 		});
+	});
+	app.get('/allrates', function(req, res){
+		var countries = [];
+		for(var i = 1; i < cc.length; i++){
+			var country = new Country(cc[i][1], cc[i][0], cc[i][2], cc[i][3]);
+			countries.push(country);
+		}
+		res.send(countries);
 	});
 
 

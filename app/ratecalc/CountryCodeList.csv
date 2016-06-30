@@ -1,21 +1,221 @@
 Region,Country,Country Code,Postal Code
-Asia,Afghanistan,AF,
-Europe,Albania,AL,2000
 Africa,Algeria,DZ,
-Oceana,American Samoa,AS,96799-6288
-Europe,Andorra,AD,
 Africa,Angola,AO,AO527
+Africa,Benin,BJ,
+Africa,Botswana,BW,267
+Africa,Burkina Faso,BF,
+Africa,Burundi,BI,
+Africa,Cameroon,CM,
+Africa,Cape Verde Islands,CV,
+Africa,Central African Republic,CF,
+Africa,Chad,TD,
+Africa,Comoros,KM,
+Africa,Cote d Ivoire (Ivory Coast),CI,
+Africa,Democratic Republic of the Congo,ZR,
+Africa,Djibouti,DJ,
+Africa,Egypt,EG,21511
+Africa,Equatorial Guinea,GQ,
+Africa,Eritrea,ER,
+Africa,Ethiopia,ET,
+Africa,Gabon,GA,
+Africa,Gambia,GM,
+Africa,Ghana,GH,
+Africa,Guinea,GN,
+Africa,Guinea-Bissau,GW,
+Africa,Kenya,KE,23571-00625
+Africa,Lesotho,LS,
+Africa,Liberia,LR,
+Africa,Libya,LY,
+Africa,Madagascar,MG,
+Africa,Malawi,MW,
+Africa,Mali,ML,
+Africa,Mauritania,MR,
+Africa,Mauritius,MU,230
+Africa,Mayotte,YT,
+Africa,Morocco,MA,11100
+Africa,Mozambique,MZ,258
+Africa,Namibia,NA,
+Africa,Niger,NE,
+Africa,Nigeria,NG,62
+Africa,Republic of the Congo,CG,
+Africa,Reunion,RE,
+Africa,Rwanda,RW,
+Africa,Saint Helena,SH,
+Africa,Senegal,SN,50103
+Africa,Seychelles,SC,SEZ
+Africa,Sierra Leone,SL,
+Africa,Somalia,SO,
+Africa,South Africa,ZA,7140
+Africa,Sudan,SD,
+Africa,Swaziland,SZ,
+Africa,Tanzania,TZ,255
+Africa,Togo,TG,15Bp316
+Africa,Tunisia,TN,
+Africa,Uganda,UG,23584
+Africa,Western Sahara,EH,
+Africa,Zambia,ZM,10101
+Africa,Zimbabwe,ZW,
+Asia,Afghanistan,AF,
+Asia,Armenia,AM,14
+Asia,Azerbaijan Republic,AZ,AZ1072
+Asia,Bangladesh,BD,
+Asia,Bhutan,BT,
+Asia,Burma,MM,
+Asia,China,CN,
+Asia,Georgia,GE,
+Asia,India,IN,
+Asia,Japan,JP,734-0022
+Asia,Kazakhstan,KZ,900513
+Asia,Kyrgyzstan,KG,
+Asia,Maldives,MV,
+Asia,Mongolia,MN,
+Asia,Nepal,NP,
+Asia,Pakistan,PK,46000
+Asia,South Korea,KR,
+Asia,Sri Lanka,LK,
+Asia,Tajikistan,TJ,
+Asia,Turkmenistan,TM,
+Asia,Uzbekistan,UZ,
 Central America and Caribbean,Anguilla,AI,
 Central America and Caribbean,Antigua and Barbuda,AG,
-South America,Argentina,AR,8400
-Asia,Armenia,AM,14
 Central America and Caribbean,Aruba,AW,33126
-Oceana,Australia,AU,6169
-Europe,Austria,AT,4050
-Asia,Azerbaijan Republic,AZ,AZ1072
 Central America and Caribbean,Bahamas,BS,
-Middle East,Bahrain,BH,973
-Asia,Bangladesh,BD,
 Central America and Caribbean,Barbados,BB,bb23040
+Central America and Caribbean,Belize,BZ,
+Central America and Caribbean,British Virgin Islands,VG,
+Central America and Caribbean,Cayman Islands,KY,
+Central America and Caribbean,Costa Rica,CR,50502
+Central America and Caribbean,Cuba,CU,
+Central America and Caribbean,Dominica,DM,
+Central America and Caribbean,Dominican Republic,DO,
+Central America and Caribbean,El Salvador,SV,503
+Central America and Caribbean,Grenada,GD,
+Central America and Caribbean,Grenadines,VC,
+Central America and Caribbean,Guadeloupe,GP,97115
+Central America and Caribbean,Guatemala,GT,
+Central America and Caribbean,Haiti,HT,
+Central America and Caribbean,Honduras,HN,
+Central America and Caribbean,Jamaica,JM,
+Central America and Caribbean,Martinique,MQ,
+Central America and Caribbean,Montserrat,MS,
+Central America and Caribbean,Netherlands Antilles,AN,
+Central America and Caribbean,Nicaragua,NI,
+Central America and Caribbean,Panama,PA,507
+Central America and Caribbean,Saint Kitts-Nevis,KN,
+Central America and Caribbean,Saint Lucia,LC,
+Central America and Caribbean,Trinidad and Tobago,TT,
+Central America and Caribbean,Turks and Caicos Islands,TC,bwi
+Europe,Albania,AL,2000
+Europe,Andorra,AD,
+Europe,Austria,AT,4050
 Europe,Belarus,BY,220140
 Europe,Belgium,BE,6540
+Europe,Bosnia and Herzegovina,BA,88000
+Europe,Bulgaria,BG,
+Europe,Cyprus,CY,4620
+Europe,Czech Republic,CZ,68601
+Europe,Democratic Republic of the Croatia,HR,
+Europe,Denmark,DK,2650
+Europe,Estonia,EE,11712
+Europe,Finland,FI,250
+Europe,France,FR,49100
+Europe,Germany,DE,72336
+Europe,Gibraltar,GI,GX111AA
+Europe,Greece,GR,13121
+Europe,Guernsey,QQ,
+Europe,Hungary,HU,3300
+Europe,Iceland,IS,112
+Europe,Ireland,IE,
+Europe,Italy,IT,24048
+Europe,Jersey,GB,
+Europe,Latvia,LV,LV-3601
+Europe,Liechtenstein,LI,
+Europe,Lithuania,LT,
+Europe,Luxembourg,LU,L-2453
+Europe,Macedonia,MK,
+Europe,Malta,MT,
+Europe,Moldova,MD,MD3901
+Europe,Monaco,MC,
+Europe,Montenegro,ME,85340
+Europe,Netherlands,NL,6846EA
+Europe,Norway,NO,5210
+Europe,Poland,PL,62-025
+Europe,Portugal,PT,1990-524
+Europe,Romania,RO,
+Europe,Russian Federation,RU,618416
+Europe,San Marino,SM,
+Europe,Serbia,RS,
+Europe,Slovakia,SK,82104
+Europe,Slovenia,SI,
+Europe,Spain,ES,28042
+Europe,Sweden,SE,83631
+Europe,Switzerland,CH,5502
+Europe,Ukraine,UA,
+Europe,United Kingdom,GB,dl134bg
+Europe,Vatican City State,VA,
+Middle East,Bahrain,BH,973
+Middle East,Iran,IR,
+Middle East,Iraq,IQ,
+Middle East,Israel,IL,52284
+Middle East,Jordan,JO,11190
+Middle East,Kuwait,KW,64029
+Middle East,Oman,OM,968
+Middle East,Qatar,QA,6732
+Middle East,Saudi Arabia,SA,11495
+Middle East,South Lebanon,LB,
+Middle East,Syria,SY,
+Middle East,Turkey,TR,34734
+Middle East,United Arab Emirates,AE,3
+Middle East,Yemen,YE,
+North America,Bermuda,BM,MA 02
+North America,Canada,CA,R0A 0C0
+North America,Greenland,GL,
+North America,Mexico,MX,77500
+North America,Saint Pierre and Miquelon,PM,
+Oceana,American Samoa,AS,96799-6288
+Oceana,Australia,AU,6169
+Oceana,Cook Islands,CK,
+Oceana,Fiji,FJ,
+Oceana,French Polynesia,PF,98713
+Oceana,Guam,GU,
+Oceana,Kiribati,KI,
+Oceana,Marshall Islands,MH,96960
+Oceana,Micronesia,MI,
+Oceana,Nauru,NR,
+Oceana,New Caledonia,NC,98822
+Oceana,New Zealand,NZ,1011
+Oceana,Niue,NU,
+Oceana,Palau,PW,
+Oceana,Papua New Guinea,PG,
+Oceana,Solomon Islands,SB,
+Oceana,Tahiti,PF,
+Oceana,Tonga,TO,
+Oceana,Vanuatu,VU,
+Oceana,Wallis and Futuna,WF,
+Oceana,Western Samoa,WS,
+South America,Argentina,AR,8400
+South America,Bolivia,BO,52001
+South America,Brazil,BR,2375100
+South America,Chile,CL,5505726
+South America,Colombia,CO,11
+South America,Ecuador,EC,EC170135
+South America,Falkland Islands (Islas Makvinas),FK,
+South America,French Guiana,GF,97310
+South America,Guyana,GY,
+South America,Paraguay,PY,2429
+South America,Peru,PE,Lima 03
+South America,Suriname,SR,
+South America,Uruguay,UY,60000
+South America,Venezuela,VE,
+Southeast Asia,Brunei Darussalam,BN,KA1189
+Southeast Asia,Cambodia,KH,12000
+Southeast Asia,Hong Kong,HK,N/A
+Southeast Asia,Indonesia,ID,29432
+Southeast Asia,Laos,LA,
+Southeast Asia,Macau,MO,Macau
+Southeast Asia,Malaysia,MY,88450
+Southeast Asia,Philippines,PH,1124
+Southeast Asia,Singapore,SG,608586
+Southeast Asia,Taiwan,TW,827
+Southeast Asia,Thailand,TH,90110
+Southeast Asia,Vietnam,VN,70000

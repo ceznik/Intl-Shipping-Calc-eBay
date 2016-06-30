@@ -350,6 +350,32 @@
 		  // Initialize Firebase
 		var shippingDB = new Firebase("https://blazing-inferno-5503.firebaseio.com/");
 
+		function linearRegression(y, x){
+			var lr = {};
+	        var n = y.length;
+	        var sum_x = 0;
+	        var sum_y = 0;
+	        var sum_xy = 0;
+	        var sum_xx = 0;
+	        var sum_yy = 0;
+
+	        for (var i = 0; i < y.length; i++) {
+
+	            console.log("sum_x: " + x[i] + "\n" + "sum_y: " + y[i]);
+	            sum_x += x[i];
+	            sum_y += y[i];
+	            sum_xy += (x[i]*y[i]);
+	            sum_xx += (x[i]*x[i]);
+	            sum_yy += (y[i]*y[i]);
+	        } 
+
+	        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+	        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+	        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+
+	        return lr;
+		}
+
 		//Firebase database push test
 		//shippingDB.push(['test1', 'test2', 'test3', 'test 4', 'test 5']);
 
@@ -382,31 +408,6 @@
 					rateArray_List.push(rates[1]);
 				});
 			}
-			
-			function linearRegression(y, x){
-				var lr = {};
-		        var n = y.length;
-		        var sum_x = 0;
-		        var sum_y = 0;
-		        var sum_xy = 0;
-		        var sum_xx = 0;
-		        var sum_yy = 0;
-
-		        for (var i = 0; i < y.length; i++) {
-
-		            sum_x += x[i];
-		            sum_y += y[i];
-		            sum_xy += (x[i]*y[i]);
-		            sum_xx += (x[i]*x[i]);
-		            sum_yy += (y[i]*y[i]);
-		        } 
-
-		        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
-		        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
-		        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
-
-		        return lr;
-			}
 
 		});
 
@@ -414,16 +415,18 @@
 			var dims = [1, 2, 4, 8, 16, 32];
 			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
 			var rateArray = [];
+			var eBayCalcBase = 0;
+			var eBayCalcRate = [];
 
 			$('#shipRateContainer').show(); // hide the shipping options table on the opening modal page.
 			$('#shipTableContainer').hide();
 
 			//get shipping quotes for each weight and dimension combination
-				var dims = 8;
+				var dims = 16;
 				var x_sum;
 				for(var j = 0; j < weights.length; j++){
 					CalcRate(weights[j], dims);
-				}
+				}		
 			
 			function CalcRate(weight, dim){
 				var shippingQuery = {
@@ -436,8 +439,10 @@
 				};				
 				$.post(currentURL + "/rates", shippingQuery,
 					function(data){
-						//console.log(data);
+						console.log(rateArray);
 						rateArray.push([weight, dim, data[0], data[1]]);
+						eBayCalcRate.push(Math.ceil(parseFloat(data[0])));
+						console.log("response: " + Math.ceil(parseFloat(data[0])));
 					}).then(function(){
 							$('#shippingRates').DataTable({
 								data: rateArray,
@@ -449,7 +454,15 @@
 								"order": [[1,'asc'],[0,'asc']],
 								"dom":'<"toolbar">frtip'
 							});
-							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: ' + );
+							var table = $('#shippingRates').DataTable();
+							console.log(eBayCalcRate.sort(function(a,b){return a-b}) + '\n' + weights);	
+							var lr = linearRegression(eBayCalcRate, weights);
+							console.log("lr.slope: " + lr.slope);
+							console.log("---------------------------");
+							console.log("Min.eBayCalcRate: " + eBayCalcRate[0]);
+							eBayCalcBase = Math.floor(eBayCalcRate[0]*1.30);
+
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + Math.ceil(lr.slope*1.30) + ' per lb');
 					});
 			}
 		});
