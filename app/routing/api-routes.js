@@ -298,9 +298,9 @@ module.exports = function(app){
 			      Value: request.body.weight
 			    },
 			    Dimensions: {
-			      Length: request.body.dims,
-			      Width: request.body.dims,
-			      Height: request.body.dims,
+			      Length: request.body.length,
+			      Width: request.body.width,
+			      Height: request.body.height,
 			      Units: 'IN'
 			    }
 			  }
@@ -313,6 +313,7 @@ module.exports = function(app){
 		  //console.log(results);
 			if (results !== undefined){
 				console.log("Sending results to browser...");
+				console.log("request.body.weight: " + request.body.weight + " & height: " + request.body.height);
 				//parse the response from FedEx and send back the account rate and the list rate for the subject package
 				response.send([results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount, results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
 			}

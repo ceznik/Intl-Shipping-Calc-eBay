@@ -32,9 +32,9 @@
 	</div>
 	<!-- Large modal -->
 
-	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content">
+	<div class="row">
+	  <div class="col-med-6">
+	    <div class="well well-lg">
 	    	<div class="panel panel-default">
 	    		<div class="panel-body">
 		    		<h3>Enter shipping details</h3>
@@ -43,6 +43,7 @@
 		    		<p>To calculate the international shipping rates used for eBay, select a postal code and country <b>ONLY</b>, then click <i><strong>Calculate Shipping Rates</strong></i>. Once calculated, the new shipping rates will be populated in the shipping rate table on the main page.</p>
 		    	</div>
 	    	</div>
+		<div class="col-med-6">
 	    	<span id="shipTableContainer">
 		      	<table id="shipTable">
 					<thead>
@@ -70,6 +71,8 @@
 					<tbody></tbody>
 				</table>
 			</span>
+		</div>
+
 
 	      <div class="form-group">
 	      	<label for="inputWeight">Weight (lbs)</label>
@@ -324,8 +327,8 @@
 	      </div>
 	      <button type="button" class="btn btn-info" id="getShippingOptions">Get Shipping Options</button>
 	      <button type="button" class="btn btn-info" id="calcShippingRates">Calculate Shipping Rates</button>
-	      <button type="button" class="btn btn-info" id="modalClose" data-dismiss="modal">Close</button>
-	    </div>
+	     </div>
+	
 	  </div>
 	</div>
 	<button type="button" class="btn btn-info" id="calcAllCountries">Refresh All Countries</button>
@@ -422,11 +425,13 @@
 			$('#shipTableContainer').hide();
 
 			//get shipping quotes for each weight and dimension combination
-				var dims = 16;
+				//var dims = 16;
 				var x_sum;
-				for(var j = 0; j < weights.length; j++){
-					CalcRate(weights[j], dims);
-				}		
+				for(var i = 0; i < dims.length; i++){
+					for(var j = 0; j < weights.length; j++){
+						CalcRate(weights[j], dims[i]);
+					}		
+				}
 			
 			function CalcRate(weight, dim){
 				var shippingQuery = {
@@ -462,7 +467,7 @@
 							console.log("Min.eBayCalcRate: " + eBayCalcRate[0]);
 							eBayCalcBase = Math.floor(eBayCalcRate[0]*1.30);
 
-							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + Math.ceil(lr.slope*1.30) + ' per lb');
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + Math.ceil(Math.ceil(lr.slope*1.30)) + ' per lb');
 					});
 			}
 		});
