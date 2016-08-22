@@ -16,5 +16,10 @@
 }
 .modal-content {
 	padding-left: 15px;
-	width: 50%;
+	width: 100%;
+}
+#shipTableContainer, #shipRateContainer {
+	float: right;
+	position: relative;
+	display:none;
 }

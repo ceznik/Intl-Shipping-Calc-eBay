@@ -19,9 +19,14 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
 
-	<!-- Firebase -->
-  	<script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+	<!-- Custom CSS -->
+	<!--<link rel="stylesheet" type="text/css" href="css/style.css"> -->
 
+	<!-- Compressed CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
+
+	<!-- Compressed JavaScript -->
+	<script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
 
 </head>
 <body>
@@ -29,8 +34,14 @@
 	  <h1>FedEx Global Shipping Calculator</h1>
 	  <p>Welcome to the Ultrarev Global Shipping Calculator. Made specifically for eBay, this calculator generates the international shipping rate table as used to calculate global shipping costs. Rates are displayed as Base Cost + $USD / LB. </p>
 	  <p><a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">Calculate Shipping!</a></p>
+	  <div class="switch large" id="shipToSelector">
+		  <input class="switch-input" id="largeSwitch" type="checkbox" name="toggleShipTo">
+		  <label class="switch-paddle" for="largeSwitch">
+		    <span class="show-for-sr">International</span>
+		  </label>
+	  </div>
 	</div>
-	<!-- Large modal -->
+
 
 	<div class="row">
 	  <div class="col-med-6">
@@ -58,6 +69,8 @@
 					<tbody></tbody>
 				</table>
 			</span>
+			<span>
+				<h3 id="shippingWeight"></h3>
 			<span id="shipRateContainer">
 				<table id="shippingRates">
 					<thead>
@@ -331,27 +344,13 @@
 	
 	  </div>
 	</div>
-	<button type="button" class="btn btn-info" id="calcAllCountries">Refresh All Countries</button>
-    <table id="compTable" class="display" cellspacing="0" width="80%">
-	<thead>
-		<tr>
-			<th>Region</th>
-			<th>Country</th>
-			<th>Ultra Base Price</th>
-			<th>Ultra Price per Pound</th>
-			<th>List Base Price</th>
-			<th>List Price per Pound</th>
-		</tr>
-	</thead>
-	<tbody></tbody>
-</table>
 </body>
 </html>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var currentURL	= window.location.origin;
 		  // Initialize Firebase
-		var shippingDB = new Firebase("https://blazing-inferno-5503.firebaseio.com/");
+		//var shippingDB = new Firebase("https://blazing-inferno-5503.firebaseio.com/");
 
 		function linearRegression(y, x){
 			var lr = {};
@@ -415,7 +414,7 @@
 		});
 
 		$('#calcShippingRates').on('click', function(){
-			var dims = [1, 2, 4, 8, 16, 32];
+			var dims = [4, 8, 12, 16, 20, 24, 28, 32];
 			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
 			var rateArray = [];
 			var eBayCalcBase = 0;
@@ -483,6 +482,8 @@
 			};
 			$('#shipTableContainer').show();
 			$('#shipRateContainer').hide();
+			var dimensionalWeight = Math.round((parseInt(shippingQuery.length) * parseInt(shippingQuery.height) * parseInt(shippingQuery.width))/139);
+			$('#shippingWeight').effect("slide","slow").text("Shipping Weight: " + Math.max(parseInt(shippingQuery.weight), dimensionalWeight) + " lbs.");
 			$.post(currentURL + "/ship", shippingQuery,
 				function(data){
 					$('#shipTable').DataTable({
@@ -512,7 +513,7 @@
 .btn-primary{
 	margin: 15px;
 }
-.jumbotron > h1, p{
+.jumbotron > h1, p, #shipToSelector{
 	margin: 15px;
 }
 .modal-content {
