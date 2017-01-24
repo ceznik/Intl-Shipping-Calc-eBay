@@ -6,6 +6,7 @@ var cc = require('../ratecalc/countrycodes.js');
 var packages = require('../data/packages.js');
 var async = require('async');
 //FEDEX API config
+
 var creds = {
 	sandbox: {
 		environment: 'sandbox', //live or sandbox
@@ -26,6 +27,7 @@ var creds = {
 		imperial: true
 	}
 }
+
 var selectedEnv = creds.live;
 
 var fedex = new fedexAPI(selectedEnv);

@@ -355,23 +355,26 @@
 		function linearRegression(y, x){
 			var lr = {};
 	        var n = y.length;
+	        var m = x.length;
 	        var sum_x = 0;
 	        var sum_y = 0;
 	        var sum_xy = 0;
 	        var sum_xx = 0;
 	        var sum_yy = 0;
 
-	        for (var i = 0; i < y.length; i++) {
-
-	            console.log("sum_x: " + x[i] + "\n" + "sum_y: " + y[i]);
-	            sum_x += x[i];
-	            sum_y += y[i];
-	            sum_xy += (x[i]*y[i]);
-	            sum_xx += (x[i]*x[i]);
-	            sum_yy += (y[i]*y[i]);
+	        for (var j = 0; j < x.length; j++) {
+	        	for (var i = 0; i < y.length; i++){
+		        	console.log("sum_x: " + sum_x);
+		            console.log("sum_x: " + x[i] + "\n" + "sum_y: " + y[i]);
+		            sum_x += x[j];
+		            sum_y += y[i];
+		            sum_xy += (x[j]*y[i]);
+		            sum_xx += (x[j]*x[j]);
+		            sum_yy += (y[i]*y[i]);
+	        	}
 	        } 
 
-	        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+	        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (m * sum_xx - sum_x * sum_x);
 	        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
 	        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
 
@@ -459,12 +462,12 @@
 								"dom":'<"toolbar">frtip'
 							});
 							var table = $('#shippingRates').DataTable();
-							console.log(eBayCalcRate.sort(function(a,b){return a-b}) + '\n' + weights);	
+							console.log("EBAY CALC RATE" + eBayCalcRate.sort(function(a,b){return a-b}) + '\n' + weights);	
 							var lr = linearRegression(eBayCalcRate, weights);
 							console.log("lr.slope: " + lr.slope);
 							console.log("---------------------------");
 							console.log("Min.eBayCalcRate: " + eBayCalcRate[0]);
-							eBayCalcBase = Math.floor(eBayCalcRate[0]*1.30);
+							eBayCalcBase = Math.ceil(eBayCalcRate[0]*1.30);
 
 							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + Math.ceil(Math.ceil(lr.slope*1.30)) + ' per lb');
 					});
