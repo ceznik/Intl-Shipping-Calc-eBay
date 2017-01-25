@@ -7,26 +7,7 @@ var packages = require('../data/packages.js');
 var async = require('async');
 //FEDEX API config
 
-var creds = {
-	sandbox: {
-		environment: 'sandbox', //live or sandbox
-		debug: false,
-		key: 'kW1xOjPyNZVDYxRf',
-		password: 'YNwXWDnDZ5XlwTStCCNyU8LOc',
-		account_number: '510087100', //dev test account number
-		meter_number: '118724066',
-		imperial: true // set to false for metric 
-	},
-	live: {
-		environment: 'live',
-		debug: false,
-		key: '59AxzdOlTRAhFBZl',
-		password: 'ro9MrYxzjqqQap8f1WOBIBEos',
-		account_number: '407973461',
-		meter_number: '109530939',
-		imperial: true
-	}
-}
+var creds = require('creds.js');
 
 var selectedEnv = creds.live;
 
