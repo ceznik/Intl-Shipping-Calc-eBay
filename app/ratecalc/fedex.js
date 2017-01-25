@@ -20,7 +20,7 @@ var table = new Table({
 
 //FEDEX API config
 var fedex = new fedexAPI({
-	environment: 'sandbox', // or live or sandbox
+	environment: 'sandbox', //  'live' or 'sandbox'
     debug: false,
     key: 'kW1xOjPyNZVDYxRf',
     password: 'YNwXWDnDZ5XlwTStCCNyU8LOc',

@@ -7,9 +7,9 @@ var packages = require('../data/packages.js');
 var async = require('async');
 //FEDEX API config
 
-var creds = require('creds.js');
+var creds = require('./creds.js');
 
-var selectedEnv = creds.live;
+var selectedEnv = creds.creds.live; //options: creds.sandbox || creds.live
 
 var fedex = new fedexAPI(selectedEnv);
 
