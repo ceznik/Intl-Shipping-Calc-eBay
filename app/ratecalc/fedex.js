@@ -67,8 +67,8 @@ var fedex = new fedexAPI({
 		      ],
 		      City: '',
 		      StateOrProvinceCode: '',
-		      PostalCode: zip,
-		      CountryCode: cc,
+		      PostalCode: '70000',
+		      CountryCode: 'VN',
 		      Residential: true
 		    }
 		  },
@@ -87,12 +87,12 @@ var fedex = new fedexAPI({
 		    GroupPackageCount: 1,
 		    Weight: {
 		      Units: 'LB',
-		      Value: wt
+		      Value: 4
 		    },
 		    Dimensions: {
-		      Length: l,
-		      Width: w,
-		      Height: h,
+		      Length: 25,
+		      Width: 4,
+		      Height: 3,
 		      Units: 'IN'
 		    }
 		  }
@@ -105,7 +105,7 @@ var fedex = new fedexAPI({
 	  //console.log(res);
 	if (results.length !== 0 || results.length !== null){
 		for(var i = 0; i < results.length; i++){
-			resultArray.push([wt, 2*(parseInt(w)+parseInt(h))+parseInt(l), results[i].ServiceType, '$' + results[i].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
+			resultArray.push([i, 2*(parseInt(25)+parseInt(4))+parseInt(3), results[i].ServiceType, '$' + results[i].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
 		}
 	  //table.push([wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount]);
 	 //  fs.appendFile('intlRates.txt',[cc, wt, lwh, results[1].ServiceType, '$' + results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount] + '\r\n','utf8',function(error){

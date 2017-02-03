@@ -56,5 +56,6 @@ var packages = [
 ];
 
 console.log("Package samples loaded...");
+console.log("packages object length: " + packages.length);
 module.exports = packages;
 

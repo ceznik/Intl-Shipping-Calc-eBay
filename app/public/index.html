@@ -33,7 +33,7 @@
 	<div class="jumbotron">
 	  <h1>FedEx Global Shipping Calculator</h1>
 	  <p>Welcome to the Ultrarev Global Shipping Calculator. Made specifically for eBay, this calculator generates the international shipping rate table as used to calculate global shipping costs. Rates are displayed as Base Cost + $USD / LB. </p>
-	  <p><a class="btn btn-primary btn-lg" href="#" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">Calculate Shipping!</a></p>
+	  <p><a class="btn btn-primary btn-lg" id="calcAllCountries" href="#" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">Calculate All Countries!</a></p>
 	  <div class="switch large" id="shipToSelector">
 		  <input class="switch-input" id="largeSwitch" type="checkbox" name="toggleShipTo">
 		  <label class="switch-paddle" for="largeSwitch">
@@ -70,7 +70,7 @@
 				</table>
 			</span>
 			<span>
-				<h3 id="shippingWeight"></h3>
+			<h3 id="shippingWeight"></h3>
 			<span id="shipRateContainer">
 				<table id="shippingRates">
 					<thead>
@@ -79,6 +79,21 @@
 							<th>Dimensions</th>
 							<th>Cost</th>
 							<th>List</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</span>
+			<span id="shipCountryContainer">
+				<table id="compTable">
+					<thead>
+						<tr>
+							<th>Region</th>
+							<th>Name</th>
+							<th>Ultra Base Rate</th>
+							<th>Ultra Price / Pound</th>
+							<th>List Base Rate</th>
+							<th>List Price / Pound</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -386,6 +401,9 @@
 
 		$('#calcAllCountries').on('click', function(){
 			var countryRateTable = [];
+			$('#shipRateContainer').hide(); // hide the shipping options table on the opening modal page.
+			$('#shipTableContainer').hide();
+			$('#shipCountryContainer').show();
 			$.get(currentURL + "/allrates", function(data){
 				console.log("data: ", data);
 				for(var c = 0; c < data.length; c++){
@@ -417,22 +435,21 @@
 		});
 
 		$('#calcShippingRates').on('click', function(){
-			var dims = [4, 8, 12, 16, 20, 24, 28, 32];
-			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+			var dims = [4, 12, 16, 20, 24, 28, 32];
+			var weights = [1, 4, 8, 16, 32, 64, 128];
 			var rateArray = [];
 			var eBayCalcBase = 0;
 			var eBayCalcRate = [];
 
 			$('#shipRateContainer').show(); // hide the shipping options table on the opening modal page.
 			$('#shipTableContainer').hide();
+			$('#shipCountryContainer').hide();
 
 			//get shipping quotes for each weight and dimension combination
 				//var dims = 16;
 				var x_sum;
 				for(var i = 0; i < dims.length; i++){
-					for(var j = 0; j < weights.length; j++){
-						CalcRate(weights[j], dims[i]);
-					}		
+					CalcRate(weights[i], dims[i]);
 				}
 			
 			function CalcRate(weight, dim){
@@ -469,7 +486,7 @@
 							console.log("Min.eBayCalcRate: " + eBayCalcRate[0]);
 							eBayCalcBase = Math.ceil(eBayCalcRate[0]*1.30);
 
-							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + Math.ceil(Math.ceil(lr.slope*1.30)) + ' per lb');
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + (Math.ceil(lr.slope*1.30)) + ' per lb');
 					});
 			}
 		});

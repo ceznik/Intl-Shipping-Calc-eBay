@@ -13,18 +13,19 @@ var selectedEnv = creds.creds.live; //options: creds.sandbox || creds.live
 
 var fedex = new fedexAPI(selectedEnv);
 
-var Country = function(name, region, cc, pc) {
+var Country = function(region, name, cc, pc) {
 	this.name = name,
 	this.cCode = cc,
 	this.postalCode = pc,
 	this.region = region,
-	this.rateArray_Ultra = function(getRates){
-		getRates('ultra');
-	},
-	this.rateArray_List = function(getRates){
-		getRates('list');
-	},
-	 // a 8 x 8 array of shipping costs used to determine the baseShippingCost and pricePerPound
+
+	// this.rateArray_Ultra = function(){
+	// 	getRates('ultra');
+	// },
+	// this.rateArray_List = function(){
+	// 	getRates('list');
+	// },
+	//  // Each rateArray is a 9 x 9 array of shipping costs used to determine the baseShippingCost and pricePerPound
 	this.baseShipping_Ultra = 0,
 	this.pricePerPound_Ultra = 0,
 	this.baseShipping_List = 0,
@@ -32,9 +33,9 @@ var Country = function(name, region, cc, pc) {
 
 	getRates = function(rateType) {
 			var a = [];
-			var dims = 8;
-			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
-			for(var j = 0; j < packages.length; j++){
+			//var dims = 8;
+			//var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+			for(var j = 0; j < 3; j++){
 				fedex.rates({
 					ReturnTransitAndCommit: true,
 					CarrierCodes: ['FDXE','FDXG'],
@@ -71,7 +72,7 @@ var Country = function(name, region, cc, pc) {
 					      City: '',
 					      StateOrProvinceCode: '',
 					      PostalCode: this.postalCode,
-					      CountryCode: this.cCode,
+					      CountryCode: "BB",
 					      Residential: true
 					    }
 					  },
@@ -106,18 +107,20 @@ var Country = function(name, region, cc, pc) {
 					if (res !== null){
 						var results = res.RateReplyDetails
 					  	if(err) throw err;
-					  	console.log(res);
+					  	console.log("Country Code: " + this.cCode);
 						if (results !== undefined){
 							console.log("Sending results to browser...");
-							if (resultType == 'ultra') {
-								a.push(results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount);
+							if (rateType == 'ultra') {
+								a[j] = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
 								if (j==0){
+									console.log("baseShipping Condition true");
 									this.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
 								}
 							}
-							else if (resultType == 'list'){
-								a.push(results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount);
+							else if (rateType == 'list'){
+								a[j] = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
 								if (j==0){
+									console.log("baseShipping Condition true");
 									this.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
 								}								
 							}
@@ -127,7 +130,7 @@ var Country = function(name, region, cc, pc) {
 						  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
 						}
 					}
-					//console.log(a);
+					console.log(a);
 					return a;
 					
 				});
@@ -321,14 +324,14 @@ module.exports = function(app){
 	});
 	app.get('/allrates', function(req, res){
 		var countries = [];
-		for(var i = 1; i < cc.length; i++){
+		for(var i = 0; i < cc.length; i++){
 
 			//create new Country object
-			var country = new Country(cc[i][1], cc[i][0], cc[i][2], cc[i][3]);
-
+			var country = new Country(cc[i][0], cc[i][1], cc[i][2], cc[i][3]);
+			console.log(country);
 			//generate the pricing arrays.
-			country.rateArray_Ultra(getRates);
-			country.rateArray_List(getRates);
+			//country.rateArray_Ultra();
+			//country.rateArray_List();
 
 			//push country object to array
 			countries.push(country);

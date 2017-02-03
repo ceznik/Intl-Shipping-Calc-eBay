@@ -6,10 +6,11 @@ var usps = new USPS({
 	ttl: 10000
 });
 
-usps.zipCodeLookup({
+usps.verify({
 	street1:'120 Central Ave',
 	city: 'Farmingdale',
-	state: 'NJ'
+	state: 'NJ',
+	zip: '07727'
 }, function(err, address) {
 	console.log(address);
 });
