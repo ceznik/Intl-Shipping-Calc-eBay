@@ -10,5 +10,5 @@ for (var i = 1; i < f.length; i++){
 
 
 console.log("country codes loaded");
-console.log(a);
+//console.log(a);
 module.exports = a;

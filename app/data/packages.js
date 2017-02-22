@@ -46,13 +46,7 @@ var packages = [
 		length: 26,
 		width: 26,
 		height: 26
-	},
-	{
-		weight: 256,
-		length: 32,
-		width: 33,
-		height: 33
-	},
+	}
 ];
 
 console.log("Package samples loaded...");

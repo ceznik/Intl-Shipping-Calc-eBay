@@ -34,10 +34,15 @@
 	  <h1>FedEx Global Shipping Calculator</h1>
 	  <p>Welcome to the Ultrarev Global Shipping Calculator. Made specifically for eBay, this calculator generates the international shipping rate table as used to calculate global shipping costs. Rates are displayed as Base Cost + $USD / LB. </p>
 	  <p><a class="btn btn-primary btn-lg" id="calcAllCountries" href="#" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">Calculate All Countries!</a></p>
+	<div class="btn-group" role="group" aria-label="Option">
+		<button type="button" class="btn btn-lg btn-primary">Ship</button>
+		<button type="button" class="btn btn-lg btn-primary">Rates</button>
+		<button type="button" class="btn btn-lg btn-primary">All Rates</button>
+	</div>
 	  <div class="switch large" id="shipToSelector">
 		  <input class="switch-input" id="largeSwitch" type="checkbox" name="toggleShipTo">
 		  <label class="switch-paddle" for="largeSwitch">
-		    <span class="show-for-sr">International</span>
+		    <span>International</span>
 		  </label>
 	  </div>
 	</div>
@@ -366,7 +371,7 @@
 		var currentURL	= window.location.origin;
 		  // Initialize Firebase
 		//var shippingDB = new Firebase("https://blazing-inferno-5503.firebaseio.com/");
-
+		$('#shipCountryContainer').hide();
 		function linearRegression(y, x){
 			var lr = {};
 	        var n = y.length;
@@ -401,10 +406,10 @@
 
 		$('#calcAllCountries').on('click', function(){
 			var countryRateTable = [];
-			$('#shipRateContainer').hide(); // hide the shipping options table on the opening modal page.
-			$('#shipTableContainer').hide();
-			$('#shipCountryContainer').show();
-			$.get(currentURL + "/allrates", function(data){
+			$('#shipRateContainer, #shipTableContainer, .form-group, #getShippingOptions, #calcShippingRates').fadeOut("slow"); // hide the shipping options table on the opening modal page.
+			//$('#shipTableContainer').hide();
+			$('#shipCountryContainer').fadeIn("slow");
+			$.get(currentURL + "/countries", function(data){
 				console.log("data: ", data);
 				for(var c = 0; c < data.length; c++){
 					countryRateTable.push([data[c].region, data[c].name, data[c].baseShipping_Ultra, data[c].pricePerPound_Ultra, data[c].baseShipping_List, data[c].pricePerPound_List]);
@@ -435,8 +440,8 @@
 		});
 
 		$('#calcShippingRates').on('click', function(){
-			var dims = [4, 12, 16, 20, 24, 28, 32];
-			var weights = [1, 4, 8, 16, 32, 64, 128];
+			var dims = [1, 2, 8, 10, 13, 16, 26, 33];
+			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
 			var rateArray = [];
 			var eBayCalcBase = 0;
 			var eBayCalcRate = [];
@@ -520,29 +525,29 @@
 	});
 </script>
 <style type="text/css">
-.form-control{
-	width:30%;
-	font-weight: 25px;
-}
-.form-group{
-	padding-left: 15px;
-}
-.btn-info{
-	margin: 15px;
-}
-.btn-primary{
-	margin: 15px;
-}
-.jumbotron > h1, p, #shipToSelector{
-	margin: 15px;
-}
-.modal-content {
-	padding-left: 15px;
-	width: 100%;
-}
-#shipTableContainer, #shipRateContainer {
-	float: right;
-	position: relative;
-	display:none;
-}
+	.form-control{
+		width:30%;
+		font-weight: 25px;
+	}
+	.form-group{
+		padding-left: 15px;
+	}
+	.btn-info{
+		margin: 15px;
+	}
+	.btn-primary{
+		margin: 15px;
+	}
+	.jumbotron > h1, p, #shipToSelector{
+		margin: 15px;
+	}
+	.modal-content {
+		padding-left: 15px;
+		width: 100%;
+	}
+	#shipTableContainer, #shipRateContainer {
+		float: right;
+		position: relative;
+		display:none;
+	}
 </style>
