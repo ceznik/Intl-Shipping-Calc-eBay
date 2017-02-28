@@ -5,6 +5,7 @@ var fedexAPI = require('shipping-fedex');
 var cc = require('../ratecalc/countrycodes.js');
 var packages = require('../data/packages.js');
 var async = require('async');
+var Promise = require('promise');
 //FEDEX API config
 
 var creds = require('./creds.js');
@@ -26,11 +27,135 @@ var Country = function(region, name, cc, pc) {
 	this.baseShipping_List = 0,
 	this.pricePerPound_List = 0,
 
-	getRates = function(rateType) {
+	this.getRates = function (rateType) {
 			var a = [];
 			//var dims = 8;
 			//var weights = [1, 2, 4, 8, 16, 32, 64, 128];
-			for(var j = 0; j < 3; j++){
+			fedex.rates({
+				ReturnTransitAndCommit: true,
+				CarrierCodes: ['FDXE','FDXG'],
+				RequestedShipment: {
+				  DropoffType: 'REGULAR_PICKUP',
+				  //ServiceType: 'FEDEX_GROUND',
+				  PackagingType: 'YOUR_PACKAGING',
+				  Shipper: {
+				    Contact: {
+				      PersonName: 'Shipping Department',
+				      CompanyName: 'Ultrarev, Inc.',
+				      PhoneNumber: '73299383999'
+				    },
+				    Address: {
+				      StreetLines: [
+				        '120 Central Ave.'
+				      ],
+				      City: 'Farmingdale',
+				      StateOrProvinceCode: 'NJ',
+				      PostalCode: '07727',
+				      CountryCode: 'US'
+				    }
+				  },
+				  Recipient: {
+				    Contact: {
+				      PersonName: '',
+				      CompanyName: '',
+				      PhoneNumber: ''
+				    },
+				    Address: {
+				      StreetLines: [
+				        ''
+				      ],
+				      City: '',
+				      StateOrProvinceCode: '',
+				      PostalCode: this.postalCode,
+				      CountryCode: "BB",
+				      Residential: true
+				    }
+				  },
+
+				  ShippingChargesPayment: {
+				    PaymentType: 'SENDER',
+				    Payor: {
+				      ResponsibleParty: {
+				        AccountNumber: fedex.options.account_number
+				      }
+				    }
+				  },
+				  RateRequestTypes:'LIST',
+				  PackageCount: '1',
+				  RequestedPackageLineItems: {
+				    SequenceNumber: 1,
+				    GroupPackageCount: 1,
+				    Weight: {
+				      Units: 'LB',
+				      Value: packages[0].weight
+				    },
+				    Dimensions: {
+				      Length: packages[0].length,
+				      Width: packages[0].width,
+				      Height: packages[0].height,
+				      Units: 'IN'
+				    }
+				  }
+				}
+			},
+			function (err, res) {
+				if (res !== null){
+					var results = res.RateReplyDetails
+				  	if(err) throw err;
+				  	console.log("Country Code: " + this.cCode);
+					if (results !== undefined){
+						console.log("Sending results to browser...");
+						if (rateType == 'ultra') {
+							a[j] = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+							console.log("a: " + a[j]);
+
+								console.log("baseShipping Condition true");
+								this.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+							
+						}
+						else if (rateType == 'list'){
+							a[j] = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+
+								console.log("baseShipping Condition true");
+								this.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+						
+						}
+					}
+					else {
+					  console.log("No results to display");
+					  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
+					}
+				}
+				console.log(a);
+				return a;
+				
+			});
+			
+			
+			
+	}
+}
+
+//function getRates(weight, dims, countryCode, postalCode)
+
+module.exports = function(app){
+	var Country = function(region, name, cc, pc) {
+		this.name = name,
+		this.cCode = cc,
+		this.postalCode = pc,
+		this.region = region,
+		//this.rateArray_Ultra = getRates('ultra'),
+		//this.rateArray_List = getRates('list'),
+		 // Each rateArray is a 9 x 9 array of shipping costs used to determine the baseShippingCost and pricePerPound
+		this.baseShipping_Ultra = 0,
+		this.pricePerPound_Ultra = 0,
+		this.baseShipping_List = 0,
+		this.pricePerPound_List = 0,
+
+		this.getRates = function (rateType) {
+				var a = 0;
+				//var dims = 8;
+				//var weights = [1, 2, 4, 8, 16, 32, 64, 128];
 				fedex.rates({
 					ReturnTransitAndCommit: true,
 					CarrierCodes: ['FDXE','FDXG'],
@@ -67,7 +192,7 @@ var Country = function(region, name, cc, pc) {
 					      City: '',
 					      StateOrProvinceCode: '',
 					      PostalCode: this.postalCode,
-					      CountryCode: "BB",
+					      CountryCode: this.cCode,
 					      Residential: true
 					    }
 					  },
@@ -87,12 +212,12 @@ var Country = function(region, name, cc, pc) {
 					    GroupPackageCount: 1,
 					    Weight: {
 					      Units: 'LB',
-					      Value: packages[j].weight
+					      Value: packages[0].weight
 					    },
 					    Dimensions: {
-					      Length: packages[j].length,
-					      Width: packages[j].width,
-					      Height: packages[j].height,
+					      Length: packages[0].length,
+					      Width: packages[0].width,
+					      Height: packages[0].height,
 					      Units: 'IN'
 					    }
 					  }
@@ -106,18 +231,19 @@ var Country = function(region, name, cc, pc) {
 						if (results !== undefined){
 							console.log("Sending results to browser...");
 							if (rateType == 'ultra') {
-								a[j] = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								if (j==0){
-									console.log("baseShipping Condition true");
-									this.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								}
+								a = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+								console.log("a: " + a);
+
+								console.log("baseShipping Condition true");
+								//this.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+								
 							}
 							else if (rateType == 'list'){
-								a[j] = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								if (j==0){
-									console.log("baseShipping Condition true");
-									this.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								}								
+								a = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+								console.log("a: " + a);
+								console.log("baseShipping Condition true");
+								//this.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
+							
 							}
 						}
 						else {
@@ -125,19 +251,17 @@ var Country = function(region, name, cc, pc) {
 						  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
 						}
 					}
-					console.log(a);
+					//console.log(a);
 					return a;
 					
 				});
-			}
-			
-			
+				
+				
+				
+		}
 	}
-}
 
-//function getRates(weight, dims, countryCode, postalCode)
 
-module.exports = function(app){
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/../public/index.html'));
 	});
@@ -318,101 +442,21 @@ module.exports = function(app){
 		});
 	});
 	app.get('/countries', function(req, res){
+		return new Promise(function( fullfill, reject){
+			
+		})
 		var countries = [];
-		for(var i = 0; i < cc.length; i++){
+		for(var i = 0; i < 2; i++){
 
 			//create new Country object
 			var country = new Country(cc[i][0], cc[i][1], cc[i][2], cc[i][3]);
-			countries.push(country);
-			fedex.rates({
-				ReturnTransitAndCommit: true,
-				CarrierCodes: ['FDXE','FDXG'],
-				RequestedShipment: {
-				  DropoffType: 'REGULAR_PICKUP',
-				  //ServiceType: 'FEDEX_GROUND',
-				  PackagingType: 'YOUR_PACKAGING',
-				  Shipper: {
-				    Contact: {
-				      PersonName: 'Shipping Department',
-				      CompanyName: 'Ultrarev, Inc.',
-				      PhoneNumber: '73299383999'
-				    },
-				    Address: {
-				      StreetLines: [
-				        '120 Central Ave.'
-				      ],
-				      City: 'Farmingdale',
-				      StateOrProvinceCode: 'NJ',
-				      PostalCode: '07727',
-				      CountryCode: 'US'
-				    }
-				  },
-				  Recipient: {
-				    Contact: {
-				      PersonName: '',
-				      CompanyName: '',
-				      PhoneNumber: ''
-				    },
-				    Address: {
-				      StreetLines: [
-				        ''
-				      ],
-				      City: '',
-				      StateOrProvinceCode: '',
-				      PostalCode: country.postalCode,
-				      CountryCode: country.cCode,
-				      Residential: true
-				    }
-				  },
-
-				  ShippingChargesPayment: {
-				    PaymentType: 'SENDER',
-				    Payor: {
-				      ResponsibleParty: {
-				        AccountNumber: fedex.options.account_number
-				      }
-				    }
-				  },
-				  RateRequestTypes:'LIST',
-				  PackageCount: '1',
-				  RequestedPackageLineItems: {
-				    SequenceNumber: 1,
-				    GroupPackageCount: 1,
-				    Weight: {
-				      Units: 'LB',
-				      Value: packages[0].weight
-				    },
-				    Dimensions: {
-				      Length: packages[0].length,
-				      Width: packages[0].width,
-				      Height: packages[0].height,
-				      Units: 'IN'
-				    }
-				  }
-				}
-			},
-			function (err, resp) {
-			  var resultArray = [];
-			  var results = resp.RateReplyDetails
-			  if(err) throw err;
-			  //console.log(results);
-				if (results !== undefined){
-					console.log("Sending results to browser...");
-					console.log("packages[0].weight: " + packages[0].weight + " & height: " + packages[0].height);
-					//parse the response from FedEx and send back the account rate and the list rate for the subject package
-					country.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-					country.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-					//response.send([results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount, results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount])
-				}
-				else {
-				  console.log("No results to display");
-				  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
-				}
-				countries.push(country);
-			});			
+			country.baseShipping_Ultra = country.getRates("ultra");
+			country.baseShipping_List = country.getRates("list");
+			console.log(country.baseShipping_Ultra);
+			//country.getRates("list");
+			countries.push(country);		
 		}
-		res.send(countries);
-		
+		res.send(countries);		
 	});
 
 
