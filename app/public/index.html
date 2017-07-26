@@ -59,6 +59,8 @@
 		    		<p>To calculate the international shipping rates used for eBay, select a postal code and country <b>ONLY</b>, then click <i><strong>Calculate Shipping Rates</strong></i>. Once calculated, the new shipping rates will be populated in the shipping rate table on the main page.</p>
 		    	</div>
 	    	</div>
+
+	    <div class="loader">Loading...</div>
 		<div class="col-med-6">
 	    	<span id="shipTableContainer">
 		      	<table id="shipTable">
@@ -375,26 +377,23 @@
 		function linearRegression(y, x){
 			var lr = {};
 	        var n = y.length;
-	        var m = x.length;
 	        var sum_x = 0;
 	        var sum_y = 0;
 	        var sum_xy = 0;
 	        var sum_xx = 0;
 	        var sum_yy = 0;
 
-	        for (var j = 0; j < x.length; j++) {
-	        	for (var i = 0; i < y.length; i++){
+	        for (var i = 0; i < y.length; i++){
 		        	console.log("sum_x: " + sum_x);
 		            console.log("sum_x: " + x[i] + "\n" + "sum_y: " + y[i]);
-		            sum_x += x[j];
+		            sum_x += x[i];
 		            sum_y += y[i];
-		            sum_xy += (x[j]*y[i]);
-		            sum_xx += (x[j]*x[j]);
+		            sum_xy += (x[i]*y[i]);
+		            sum_xx += (x[i]*x[i]);
 		            sum_yy += (y[i]*y[i]);
-	        	}
 	        } 
 
-	        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (m * sum_xx - sum_x * sum_x);
+	        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
 	        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
 	        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
 
@@ -411,15 +410,21 @@
 			$('#shipCountryContainer').fadeIn("slow");
 			$.get(currentURL + "/countries", function(data){
 				console.log("data: ", data);
-				for(var c = 0; c < data.length; c++){
+				var dims = [1, 33];
+				var weights = [1, 128];
+				for(var c = 0; c < 2; c++){ //data.length
 					countryRateTable.push([data[c].region, data[c].name, data[c].baseShipping_Ultra, data[c].pricePerPound_Ultra, data[c].baseShipping_List, data[c].pricePerPound_List]);
+					//calcCountryRate(weights[0], dims[0], data[c].cCode, data[c].postalCode);
+
 				}
+
+			}).then(function(){
 				$('#compTable').DataTable({
 					data:countryRateTable,
 					"searching":true,
 					"info":true,
 					"paging":true
-					});
+				});
 			});
 			function calcCountryRate(w, d, cc, pc){
 				var shippingQuery = {
@@ -432,13 +437,12 @@
 				};				
 				$.post(currentURL + "/rates", shippingQuery, function(rates){
 					console.log("Rates: ", rates);
-					rateArray_Ultra.push(rates[0]);
-					rateArray_List.push(rates[1]);
+
 				});
 			}
 
 		});
-
+/* For calculating the shipping cost of the sample set of boxes to a given Country (and postal code if applicable) */
 		$('#calcShippingRates').on('click', function(){
 			var dims = [1, 2, 8, 10, 13, 16, 26, 33];
 			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
@@ -489,13 +493,13 @@
 							console.log("lr.slope: " + lr.slope);
 							console.log("---------------------------");
 							console.log("Min.eBayCalcRate: " + eBayCalcRate[0]);
-							eBayCalcBase = Math.ceil(eBayCalcRate[0]*1.30);
+							eBayCalcBase = eBayCalcRate[0].toFixed(2);
 
-							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + (Math.ceil(lr.slope*1.30)) + ' per lb');
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + (lr.slope).toFixed(2) + ' per lb');
 					});
 			}
 		});
-
+	/* For calculating the exact shipping cost of a known size box to a known destination.*/
 		$('#getShippingOptions').on('click', function(){
 			var shippingQuery = {
 				weight: $('#inputWeight').val().trim(),
@@ -550,4 +554,88 @@
 		position: relative;
 		display:none;
 	}
+
+/* Loader styles */
+.loader {
+  color: #ffffff;
+  font-size: 90px;
+  text-indent: -9999em;
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin: 72px auto;
+  position: relative;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+  animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+}
+@-webkit-keyframes load6 {
+  0% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+  }
+  100% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+}
+@keyframes load6 {
+  0% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+  }
+  100% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+}
+@-webkit-keyframes round {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes round {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
 </style>

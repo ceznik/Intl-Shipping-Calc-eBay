@@ -442,9 +442,9 @@ module.exports = function(app){
 		});
 	});
 	app.get('/countries', function(req, res){
-		return new Promise(function( fullfill, reject){
+		// return new Promise(function( fullfill, reject){
 			
-		})
+		// })
 		var countries = [];
 		for(var i = 0; i < 2; i++){
 
@@ -459,5 +459,52 @@ module.exports = function(app){
 		res.send(countries);		
 	});
 
+	app.get('/track', function(req, res){
+		res.sendFile(path.join(__dirname + '/../public/track.html'));
+	});
 
+	app.get('/track/:trackingnum', function(request, response){
+		//return req.params.trackingnum;
+		fedex.track({
+		  SelectionDetails: {
+		    PackageIdentifier: {
+		      Type: 'TRACKING_NUMBER_OR_DOORTAG', //SHIPPER_REFERENCE,PURCHASE_ORDER,TRACKING_NUMBER_OR_DOORTAG,
+		      Value: request.params.trackingnum
+		    }
+		  }
+		}, function(err, res) {
+		  if(err) {
+		    return console.log(err);
+		  }
+
+		  response.send(res);
+		});
+	});
+//SHIPPER_REFERENCE,PURCHASE_ORDER,TRACKING_NUMBER_OR_DOORTAG,
+	app.get('/trackbyref/:ref', function(request, response){
+		//return req.params.trackingnum;
+		fedex.track({
+		  SelectionDetails: {
+		  	ShipmentAccountNumber: "407973461",
+		  	SecureSpodAccount: "407973461",
+		  	//ShipDateRangeBegin: '07/01/2017',
+		  	//ShipDateRangeEnd: '07/26/2017',
+		  	CustomerSpecifiedTimeOutValueInMilliseconds: 3000,
+		    PackageIdentifier: {
+		      Type: "PURCHASE_ORDER",
+		      Value: request.params.ref
+		    },
+		    PagingDetail: {
+		    	NumberOfResultsPerPage: 25
+		    },
+		    //ResponseFormat: {}
+		  }
+		}, function(err, res) {
+		  if(err) {
+		    return console.log(err);
+		  }
+
+		  response.send(res);
+		});
+	});
 }

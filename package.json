@@ -17,6 +17,7 @@
     "express": "^4.13.4",
     "firebase": "^3.0.3",
     "path": "^0.12.7",
+    "promise": "^7.1.1",
     "shipping-fedex": "^0.1.4",
     "usps-webtools": "0.0.11"
   }

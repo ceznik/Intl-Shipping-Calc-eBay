@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ultrarev Tracking Console</title>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<!-- Compressed JavaScript -->
+	<script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
+
+
+		<!-- Custom CSS -->
+<!-- 	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">  -->
+</head>
+<body>
+<div class="row expanded collapse" id="header-container">
+  <div class="column">
+    <div class="large-article-header">
+      <div class="large-article-header-content">
+        <div class="center-container">
+          <div class="article-date">
+            <p>Ultrarev.com</p>
+          </div>
+          <div class="article-title">
+            <h1>Tracking Console</h1>
+          </div>
+          <div class="article-details">
+            <div class="article-author">
+              <a href="#">Shawn Singh</a>
+            </div>
+            <div class="article-comments">
+              <a href="#"><i class="fa fa-comment" aria-hidden="true"></i> 3 Comments</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="input-group input-group-rounded">
+  <input class="input-group-field" type="text" id="search-tracking">
+  <div class="input-group-button">
+    <input type="submit" class="button secondary" id="tracking-search-btn" value="Search">
+  </div>
+</div>
+
+
+</body>
+
+<script type="text/JavaScript">
+$(document).ready(function(){
+	$('#tracking-search-btn').on('click', function(){
+		$('#header-container').hide("slow");
+		var trackingNumber = $('#search-tracking').val().trim();
+		console.log(trackingNumber);
+	});
+
+});
+</script>
+
+<style type="text/css">
+
+.large-article-header {
+  background: url("https://unsplash.it/1024/500/?blur") no-repeat center;
+  background-size: cover;
+  height: 31.25rem;
+  position: relative;
+}
+
+@media screen and (max-width: 39.9375em) {
+  .large-article-header {
+    height: 20.83333rem;
+  }
+}
+
+.large-article-header-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: absolute;
+  bottom: 3.125rem;
+  left: 0;
+  right: 0;
+}
+
+@media screen and (max-width: 39.9375em) {
+  .large-article-header-content {
+    bottom: 1.25rem;
+  }
+}
+
+.large-article-header-content .center-container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 39.9375em) {
+  .large-article-header-content .center-container {
+    width: 100%;
+    padding: 0 1.25rem;
+  }
+}
+
+.large-article-header-content .article-date {
+  color: #fefefe;
+}
+
+.large-article-header-content .article-title h1 {
+  line-height: 3.125rem;
+  color: #fefefe;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 39.9375em) {
+  .large-article-header-content .article-title h1 {
+    line-height: 1.875rem;
+  }
+}
+
+.large-article-header-content .article-details {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.large-article-header-content .article-details a {
+  color: #fefefe;
+}
+
+.large-article-header-content .article-author {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 1rem 0;
+}
+
+.large-article-header-content .article-author img {
+  border-radius: 3.125rem;
+}
+
+.large-article-header-content .article-author a {
+  margin-left: 1rem;
+}
+
+.input-group{
+	width: 50%;
+}
+
+</style>
+</html>
