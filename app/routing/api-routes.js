@@ -485,26 +485,22 @@ module.exports = function(app){
 		//return req.params.trackingnum;
 		fedex.track({
 		  SelectionDetails: {
-		  	ShipmentAccountNumber: "407973461",
+		    PackageIdentifier: {
+		      Type: "PURCHASE_ORDER",
+		      Value: request.params.ref.toString()
+		    },
+		    ShipmentAccountNumber: "407973461",
 		  	SecureSpodAccount: "407973461",
 		  	//ShipDateRangeBegin: '07/01/2017',
 		  	//ShipDateRangeEnd: '07/26/2017',
 		  	CustomerSpecifiedTimeOutValueInMilliseconds: 3000,
-		    PackageIdentifier: {
-		      Type: "PURCHASE_ORDER",
-		      Value: request.params.ref
-		    },
-		    PagingDetail: {
-		    	NumberOfResultsPerPage: 25
-		    },
 		    //ResponseFormat: {}
 		  }
 		}, function(err, res) {
 		  if(err) {
 		    return console.log(err);
 		  }
-
-		  response.send(res);
+		  response.send(res.CompletedTrackDetails[0].TrackDetails[0].TrackingNumber);
 		});
 	});
 }
