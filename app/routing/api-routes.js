@@ -14,129 +14,8 @@ var selectedEnv = creds.creds.live; //options: creds.sandbox || creds.live
 
 var fedex = new fedexAPI(selectedEnv);
 
-var Country = function(region, name, cc, pc) {
-	this.name = name,
-	this.cCode = cc,
-	this.postalCode = pc,
-	this.region = region,
-	//this.rateArray_Ultra = getRates('ultra'),
-	//this.rateArray_List = getRates('list'),
-	 // Each rateArray is a 9 x 9 array of shipping costs used to determine the baseShippingCost and pricePerPound
-	this.baseShipping_Ultra = 0,
-	this.pricePerPound_Ultra = 0,
-	this.baseShipping_List = 0,
-	this.pricePerPound_List = 0,
 
-	this.getRates = function (rateType) {
-			var a = [];
-			//var dims = 8;
-			//var weights = [1, 2, 4, 8, 16, 32, 64, 128];
-			fedex.rates({
-				ReturnTransitAndCommit: true,
-				CarrierCodes: ['FDXE','FDXG'],
-				RequestedShipment: {
-				  DropoffType: 'REGULAR_PICKUP',
-				  //ServiceType: 'FEDEX_GROUND',
-				  PackagingType: 'YOUR_PACKAGING',
-				  Shipper: {
-				    Contact: {
-				      PersonName: 'Shipping Department',
-				      CompanyName: 'Ultrarev, Inc.',
-				      PhoneNumber: '73299383999'
-				    },
-				    Address: {
-				      StreetLines: [
-				        '120 Central Ave.'
-				      ],
-				      City: 'Farmingdale',
-				      StateOrProvinceCode: 'NJ',
-				      PostalCode: '07727',
-				      CountryCode: 'US'
-				    }
-				  },
-				  Recipient: {
-				    Contact: {
-				      PersonName: '',
-				      CompanyName: '',
-				      PhoneNumber: ''
-				    },
-				    Address: {
-				      StreetLines: [
-				        ''
-				      ],
-				      City: '',
-				      StateOrProvinceCode: '',
-				      PostalCode: this.postalCode,
-				      CountryCode: "BB",
-				      Residential: true
-				    }
-				  },
 
-				  ShippingChargesPayment: {
-				    PaymentType: 'SENDER',
-				    Payor: {
-				      ResponsibleParty: {
-				        AccountNumber: fedex.options.account_number
-				      }
-				    }
-				  },
-				  RateRequestTypes:'LIST',
-				  PackageCount: '1',
-				  RequestedPackageLineItems: {
-				    SequenceNumber: 1,
-				    GroupPackageCount: 1,
-				    Weight: {
-				      Units: 'LB',
-				      Value: packages[0].weight
-				    },
-				    Dimensions: {
-				      Length: packages[0].length,
-				      Width: packages[0].width,
-				      Height: packages[0].height,
-				      Units: 'IN'
-				    }
-				  }
-				}
-			},
-			function (err, res) {
-				if (res !== null){
-					var results = res.RateReplyDetails
-				  	if(err) throw err;
-				  	console.log("Country Code: " + this.cCode);
-					if (results !== undefined){
-						console.log("Sending results to browser...");
-						if (rateType == 'ultra') {
-							a[j] = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-							console.log("a: " + a[j]);
-
-								console.log("baseShipping Condition true");
-								this.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-							
-						}
-						else if (rateType == 'list'){
-							a[j] = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-
-								console.log("baseShipping Condition true");
-								this.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-						
-						}
-					}
-					else {
-					  console.log("No results to display");
-					  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
-					}
-				}
-				console.log(a);
-				return a;
-				
-			});
-			
-			
-			
-	}
-}
-
-//function getRates(weight, dims, countryCode, postalCode)
 
 module.exports = function(app){
 	var Country = function(region, name, cc, pc) {
@@ -144,123 +23,11 @@ module.exports = function(app){
 		this.cCode = cc,
 		this.postalCode = pc,
 		this.region = region,
-		//this.rateArray_Ultra = getRates('ultra'),
-		//this.rateArray_List = getRates('list'),
-		 // Each rateArray is a 9 x 9 array of shipping costs used to determine the baseShippingCost and pricePerPound
 		this.baseShipping_Ultra = 0,
 		this.pricePerPound_Ultra = 0,
 		this.baseShipping_List = 0,
-		this.pricePerPound_List = 0,
-
-		this.getRates = function (rateType) {
-				var a = 0;
-				//var dims = 8;
-				//var weights = [1, 2, 4, 8, 16, 32, 64, 128];
-				fedex.rates({
-					ReturnTransitAndCommit: true,
-					CarrierCodes: ['FDXE','FDXG'],
-					RequestedShipment: {
-					  DropoffType: 'REGULAR_PICKUP',
-					  //ServiceType: 'FEDEX_GROUND',
-					  PackagingType: 'YOUR_PACKAGING',
-					  Shipper: {
-					    Contact: {
-					      PersonName: 'Shipping Department',
-					      CompanyName: 'Ultrarev, Inc.',
-					      PhoneNumber: '73299383999'
-					    },
-					    Address: {
-					      StreetLines: [
-					        '120 Central Ave.'
-					      ],
-					      City: 'Farmingdale',
-					      StateOrProvinceCode: 'NJ',
-					      PostalCode: '07727',
-					      CountryCode: 'US'
-					    }
-					  },
-					  Recipient: {
-					    Contact: {
-					      PersonName: '',
-					      CompanyName: '',
-					      PhoneNumber: ''
-					    },
-					    Address: {
-					      StreetLines: [
-					        ''
-					      ],
-					      City: '',
-					      StateOrProvinceCode: '',
-					      PostalCode: this.postalCode,
-					      CountryCode: this.cCode,
-					      Residential: true
-					    }
-					  },
-
-					  ShippingChargesPayment: {
-					    PaymentType: 'SENDER',
-					    Payor: {
-					      ResponsibleParty: {
-					        AccountNumber: fedex.options.account_number
-					      }
-					    }
-					  },
-					  RateRequestTypes:'LIST',
-					  PackageCount: '1',
-					  RequestedPackageLineItems: {
-					    SequenceNumber: 1,
-					    GroupPackageCount: 1,
-					    Weight: {
-					      Units: 'LB',
-					      Value: packages[0].weight
-					    },
-					    Dimensions: {
-					      Length: packages[0].length,
-					      Width: packages[0].width,
-					      Height: packages[0].height,
-					      Units: 'IN'
-					    }
-					  }
-					}
-				},
-				function (err, res) {
-					if (res !== null){
-						var results = res.RateReplyDetails
-					  	if(err) throw err;
-					  	console.log("Country Code: " + this.cCode);
-						if (results !== undefined){
-							console.log("Sending results to browser...");
-							if (rateType == 'ultra') {
-								a = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								console.log("a: " + a);
-
-								console.log("baseShipping Condition true");
-								//this.baseShipping_Ultra = results[1].RatedShipmentDetails[0].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								
-							}
-							else if (rateType == 'list'){
-								a = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-								console.log("a: " + a);
-								console.log("baseShipping Condition true");
-								//this.baseShipping_List = results[1].RatedShipmentDetails[1].ShipmentRateDetail.TotalNetChargeWithDutiesAndTaxes.Amount;
-							
-							}
-						}
-						else {
-						  console.log("No results to display");
-						  console.log(res.HighestSeverity + ': ' + res.Notifications[0].Message);
-						}
-					}
-					//console.log(a);
-					return a;
-					
-				});
-				
-				
-				
-		}
+		this.pricePerPound_List = 0
 	}
-
 
 	app.get('/', function(req, res){
 		res.sendFile(path.join(__dirname + '/../public/index.html'));
@@ -446,14 +213,10 @@ module.exports = function(app){
 			
 		// })
 		var countries = [];
-		for(var i = 0; i < 2; i++){
+		for(var i = 0; i < cc.length; i++){
 
 			//create new Country object
 			var country = new Country(cc[i][0], cc[i][1], cc[i][2], cc[i][3]);
-			country.baseShipping_Ultra = country.getRates("ultra");
-			country.baseShipping_List = country.getRates("list");
-			console.log(country.baseShipping_Ultra);
-			//country.getRates("list");
 			countries.push(country);		
 		}
 		res.send(countries);		
@@ -500,7 +263,49 @@ module.exports = function(app){
 		  if(err) {
 		    return console.log(err);
 		  }
-		  response.send(res.CompletedTrackDetails[0].TrackDetails[0].TrackingNumber);
+		  var trackingRef = {};
+		  trackingRef.tracking = res.CompletedTrackDetails[0].TrackDetails[0].TrackingNumber;
+		  trackingRef.shipdate = res.CompletedTrackDetails[0].TrackDetails[0].StatusDetail.CreationTime;
+		  trackingRef.id = res.CompletedTrackDetails[0].TrackDetails[0].OtherIdentifiers[2].PackageIdentifier;
+		  trackingRef.shipper = res.CompletedTrackDetails[0].TrackDetails[0].Shipper;
+		  trackingRef.recipient = res.CompletedTrackDetails[0].TrackDetails[0].Recipient;
+		  trackingRef.estdlvdate = res.CompletedTrackDetails[0].TrackDetails[0].EstimatedDeliveryTimestamp;
+		  response.send(trackingRef);  // 
 		});
 	});
+
+	// app.get('/trackbyrefs/multrefs', function(request, response){
+	// 	//return req.params.trackingnum;
+	// 	fedex.track({
+	// 	  SelectionDetails: [{
+	// 	    PackageIdentifier: {
+	// 	      Type: "PURCHASE_ORDER",
+	// 	      Value: "340158"
+	// 	    },
+	// 	    ShipmentAccountNumber: "407973461",
+	// 	  	SecureSpodAccount: "407973461",
+	// 	  	// ShipDateRangeBegin: "2017-07-01",
+	// 	  	// ShipDateRangeEnd: "2017-07-31",
+	// 	  	CustomerSpecifiedTimeOutValueInMilliseconds: 3000,
+	// 	    //ResponseFormat: {}
+	// 	  },
+	// 	  {
+	// 	    PackageIdentifier: {
+	// 	      Type: "PURCHASE_ORDER",
+	// 	      Value: "340144"
+	// 	    },
+	// 	    ShipmentAccountNumber: "407973461",
+	// 	  	SecureSpodAccount: "407973461",
+	// 	  	// ShipDateRangeBegin: "2017-07-01",
+	// 	  	// ShipDateRangeEnd: "2017-07-31",
+	// 	  	CustomerSpecifiedTimeOutValueInMilliseconds: 3000,
+	// 	    //ResponseFormat: {}
+	// 	  }]
+	// 	}, function(err, res) {
+	// 	  if(err) {
+	// 	    return console.log(err);
+	// 	  }
+	// 	  response.send(res);
+	// 	});
+	// });
 }

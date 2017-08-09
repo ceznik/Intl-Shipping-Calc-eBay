@@ -33,7 +33,7 @@
 	<div class="jumbotron">
 	  <h1>FedEx Global Shipping Calculator</h1>
 	  <p>Welcome to the Ultrarev Global Shipping Calculator. Made specifically for eBay, this calculator generates the international shipping rate table as used to calculate global shipping costs. Rates are displayed as Base Cost + $USD / LB. </p>
-	  <p><a class="btn btn-primary btn-lg" id="calcAllCountries" href="#" role="button" data-toggle="modal" data-target=".bs-example-modal-lg">Calculate All Countries!</a></p>
+	  <p><a class="btn btn-primary btn-lg" id="viewAllCountries" href="#" role="button" data-toggle="modal" data-target=".shipCountryContainer">View Rate Tables</a></p>
 	<div class="btn-group" role="group" aria-label="Option">
 		<button type="button" class="btn btn-lg btn-primary">Ship</button>
 		<button type="button" class="btn btn-lg btn-primary">Rates</button>
@@ -60,7 +60,7 @@
 		    	</div>
 	    	</div>
 
-	    <div class="loader">Loading...</div>
+<!-- 	    <div class="loader">Loading...</div> -->
 		<div class="col-med-6">
 	    	<span id="shipTableContainer">
 		      	<table id="shipTable">
@@ -403,19 +403,20 @@
 		//Firebase database push test
 		//shippingDB.push(['test1', 'test2', 'test3', 'test 4', 'test 5']);
 
-		$('#calcAllCountries').on('click', function(){
+		$('#viewAllCountries').on('click', function(){
 			var countryRateTable = [];
-			$('#shipRateContainer, #shipTableContainer, .form-group, #getShippingOptions, #calcShippingRates').fadeOut("slow"); // hide the shipping options table on the opening modal page.
+			$('#shipRateContainer, #shipTableContainer, .form-group, .panel, #getShippingOptions, #shippingWeight, #calcShippingRates').fadeOut("slow"); // hide the shipping options table on the opening modal page.
 			//$('#shipTableContainer').hide();
 			$('#shipCountryContainer').fadeIn("slow");
 			$.get(currentURL + "/countries", function(data){
 				console.log("data: ", data);
-				var dims = [1, 33];
-				var weights = [1, 128];
-				for(var c = 0; c < 2; c++){ //data.length
+				var dims = [1, 2, 8, 10, 13, 16, 26];
+				var weights = [1, 2, 4, 8, 16, 32, 64];
+				for(var c = 0; c < data.length; c++){
+					for(var i = 0; i < dims.length; i++){
+						calcCountryRate(weights[i],dims[i],data[c].cCode,data[c].postalCode);
+					}
 					countryRateTable.push([data[c].region, data[c].name, data[c].baseShipping_Ultra, data[c].pricePerPound_Ultra, data[c].baseShipping_List, data[c].pricePerPound_List]);
-					//calcCountryRate(weights[0], dims[0], data[c].cCode, data[c].postalCode);
-
 				}
 
 			}).then(function(){
@@ -437,18 +438,17 @@
 				};				
 				$.post(currentURL + "/rates", shippingQuery, function(rates){
 					console.log("Rates: ", rates);
-
-				});
+				});			
 			}
-
 		});
 /* For calculating the shipping cost of the sample set of boxes to a given Country (and postal code if applicable) */
 		$('#calcShippingRates').on('click', function(){
-			var dims = [1, 2, 8, 10, 13, 16, 26, 33];
-			var weights = [1, 2, 4, 8, 16, 32, 64, 128];
+			var dims = [1, 2, 8, 10, 13, 16, 26];
+			var weights = [1, 2, 4, 8, 16, 32, 64];
 			var rateArray = [];
 			var eBayCalcBase = 0;
-			var eBayCalcRate = [];
+			var eBayCalcRate = 0;
+			var eBayCalcRates = [];
 
 			$('#shipRateContainer').show(); // hide the shipping options table on the opening modal page.
 			$('#shipTableContainer').hide();
@@ -474,7 +474,7 @@
 					function(data){
 						console.log(rateArray);
 						rateArray.push([weight, dim, data[0], data[1]]);
-						eBayCalcRate.push(Math.ceil(parseFloat(data[0])));
+						eBayCalcRates.push(Math.ceil(parseFloat(data[0])));
 						console.log("response: " + Math.ceil(parseFloat(data[0])));
 					}).then(function(){
 							$('#shippingRates').DataTable({
@@ -488,14 +488,15 @@
 								"dom":'<"toolbar">frtip'
 							});
 							var table = $('#shippingRates').DataTable();
-							console.log("EBAY CALC RATE" + eBayCalcRate.sort(function(a,b){return a-b}) + '\n' + weights);	
-							var lr = linearRegression(eBayCalcRate, weights);
+							console.log("EBAY CALC RATE" + eBayCalcRates.sort(function(a,b){return a-b}) + '\n' + weights);	
+							var lr = linearRegression(eBayCalcRates, weights);
 							console.log("lr.slope: " + lr.slope);
 							console.log("---------------------------");
-							console.log("Min.eBayCalcRate: " + eBayCalcRate[0]);
-							eBayCalcBase = eBayCalcRate[0].toFixed(2);
+							console.log("Min.eBayCalcRate: " + eBayCalcRates[0]);
+							eBayCalcBase = Math.ceil(eBayCalcRates[0].toFixed(2));
+							eBayCalcRate = Math.ceil((1.33*lr.slope).toFixed(2))
 
-							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + (lr.slope).toFixed(2) + ' per lb');
+							$('div.toolbar').html('<b>' + $('#inputCountry').val() + ' Shipping Quotes</b>' + ' eBay Rates: $' + eBayCalcBase + ' + ' + eBayCalcRate + ' per lb');
 					});
 			}
 		});
