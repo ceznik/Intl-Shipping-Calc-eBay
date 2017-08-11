@@ -28,6 +28,28 @@
 	<!-- Compressed JavaScript -->
 	<script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
 
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyBFf5Kr911WdHKaDHr49T_r98KlgX1W-2s",
+	    authDomain: "ebay-intl-shipping.firebaseapp.com",
+	    databaseURL: "https://ebay-intl-shipping.firebaseio.com",
+	    projectId: "ebay-intl-shipping",
+	    storageBucket: "ebay-intl-shipping.appspot.com",
+	    messagingSenderId: "780346045593"
+	  };
+	  firebase.initializeApp(config);
+	  firebase.auth().signInAnonymously().catch(function(error){
+	  	console.log("Sign In Error: ", error.message);
+	  });
+	  var tableRef = firebase.database();
+	  tableRef.ref().once('value').then(function(snapshot){
+	  	console.log("snapshot: ", snapshot.val().international);
+	  });
+	  console.log("Firebase initiated");
+	</script>
 </head>
 <body>
 	<div class="jumbotron">
@@ -408,13 +430,17 @@
 			$('#shipRateContainer, #shipTableContainer, .form-group, .panel, #getShippingOptions, #shippingWeight, #calcShippingRates').fadeOut("slow"); // hide the shipping options table on the opening modal page.
 			//$('#shipTableContainer').hide();
 			$('#shipCountryContainer').fadeIn("slow");
+			tableRef.ref().on('child_added', function(snapshot) {
+				console.log("snapshot: ", snapshot.val());
+			} );
+
 			$.get(currentURL + "/countries", function(data){
 				console.log("data: ", data);
 				var dims = [1, 2, 8, 10, 13, 16, 26];
 				var weights = [1, 2, 4, 8, 16, 32, 64];
 				for(var c = 0; c < data.length; c++){
 					for(var i = 0; i < dims.length; i++){
-						calcCountryRate(weights[i],dims[i],data[c].cCode,data[c].postalCode);
+						//calcCountryRate(weights[i],dims[i],data[c].cCode,data[c].postalCode);
 					}
 					countryRateTable.push([data[c].region, data[c].name, data[c].baseShipping_Ultra, data[c].pricePerPound_Ultra, data[c].baseShipping_List, data[c].pricePerPound_List]);
 				}
@@ -437,11 +463,12 @@
 				country: cc
 				};				
 				$.post(currentURL + "/rates", shippingQuery, function(rates){
-					console.log("Rates: ", rates);
+					console.log("Country(0): ", data[0]);
+
 				});			
 			}
 		});
-/* For calculating the shipping cost of the sample set of boxes to a given Country (and postal code if applicable) */
+		/* For calculating the shipping cost of the sample set of boxes to a given Country (and postal code if applicable) */
 		$('#calcShippingRates').on('click', function(){
 			var dims = [1, 2, 8, 10, 13, 16, 26];
 			var weights = [1, 2, 4, 8, 16, 32, 64];
@@ -456,10 +483,10 @@
 
 			//get shipping quotes for each weight and dimension combination
 				//var dims = 16;
-				var x_sum;
-				for(var i = 0; i < dims.length; i++){
-					CalcRate(weights[i], dims[i]);
-				}
+			var x_sum;
+			for(var i = 0; i < dims.length; i++){
+				CalcRate(weights[i], dims[i]);
+			}
 			
 			function CalcRate(weight, dim){
 				var shippingQuery = {
@@ -500,7 +527,7 @@
 					});
 			}
 		});
-	/* For calculating the exact shipping cost of a known size box to a known destination.*/
+		/* For calculating the exact shipping cost of a known size box to a known destination.*/
 		$('#getShippingOptions').on('click', function(){
 			var shippingQuery = {
 				weight: $('#inputWeight').val().trim(),
@@ -555,88 +582,85 @@
 		position: relative;
 		display:none;
 	}
-
-/* Loader styles */
-.loader {
-  color: #ffffff;
-  font-size: 90px;
-  text-indent: -9999em;
-  overflow: hidden;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  margin: 72px auto;
-  position: relative;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
-  animation: load6 1.7s infinite ease, round 1.7s infinite ease;
-}
-@-webkit-keyframes load6 {
-  0% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
-  }
-  5%,
-  95% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
-  }
-  10%,
-  59% {
-    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
-  }
-  20% {
-    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
-  }
-  38% {
-    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
-  }
-  100% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
-  }
-}
-@keyframes load6 {
-  0% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
-  }
-  5%,
-  95% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
-  }
-  10%,
-  59% {
-    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
-  }
-  20% {
-    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
-  }
-  38% {
-    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
-  }
-  100% {
-    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
-  }
-}
-@-webkit-keyframes round {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes round {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-
+	/* Loader styles */
+	.loader {
+	  color: #ffffff;
+	  font-size: 90px;
+	  text-indent: -9999em;
+	  overflow: hidden;
+	  width: 1em;
+	  height: 1em;
+	  border-radius: 50%;
+	  margin: 72px auto;
+	  position: relative;
+	  -webkit-transform: translateZ(0);
+	  -ms-transform: translateZ(0);
+	  transform: translateZ(0);
+	  -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+	  animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+	}
+	@-webkit-keyframes load6 {
+	  0% {
+	    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+	  }
+	  5%,
+	  95% {
+	    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+	  }
+	  10%,
+	  59% {
+	    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+	  }
+	  20% {
+	    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+	  }
+	  38% {
+	    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+	  }
+	  100% {
+	    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+	  }
+	}
+	@keyframes load6 {
+	  0% {
+	    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+	  }
+	  5%,
+	  95% {
+	    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+	  }
+	  10%,
+	  59% {
+	    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+	  }
+	  20% {
+	    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+	  }
+	  38% {
+	    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+	  }
+	  100% {
+	    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+	  }
+	}
+	@-webkit-keyframes round {
+	  0% {
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	  }
+	  100% {
+	    -webkit-transform: rotate(360deg);
+	    transform: rotate(360deg);
+	  }
+	}
+	@keyframes round {
+	  0% {
+	    -webkit-transform: rotate(0deg);
+	    transform: rotate(0deg);
+	  }
+	  100% {
+	    -webkit-transform: rotate(360deg);
+	    transform: rotate(360deg);
+	  }
+	}
 </style>
